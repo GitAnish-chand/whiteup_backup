@@ -177,7 +177,7 @@ export const SodaBottle = ({ scrollProgress }: SodaBottleProps) => {
   }, []);
 
   return (
-    <group ref={bottleRef} position={[0, -1.5, 0]} scale={1.1}>
+    <group ref={bottleRef} position={[0, -0.8, 0]} scale={0.95}>
       {/* Glass bottle */}
       <mesh geometry={bottleGeometry} material={glassMaterial} />
       
