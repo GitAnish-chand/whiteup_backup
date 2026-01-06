@@ -16,7 +16,7 @@ interface Bubble {
 
 export const BubbleParticles = ({ scrollProgress }: BubbleParticlesProps) => {
   const bubbles = useMemo<Bubble[]>(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
+    return Array.from({ length: 50 }, (_, i) => ({
       id: i,
       size: 4 + Math.random() * 20,
       left: `${Math.random() * 100}%`,

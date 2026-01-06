@@ -9,22 +9,25 @@ import { VisionSection } from '@/components/sections/VisionSection';
 import { CTASection } from '@/components/sections/CTASection';
 import { useScrollProgress } from '@/hooks/useScrollProgress';
 import { useSoundEffects } from '@/hooks/useSoundEffects';
+import Background3D from '@/components/3d/Background3d';
+
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const lastScrollRef = useRef(0);
-  
-  const { playBubbleSound, playFizzSound } = useSoundEffects({ 
-    enabled: soundEnabled, 
-    volume: 0.2 
+  const [rotationY, setRotationY] = useState(0);
+
+  const { playBubbleSound, playFizzSound } = useSoundEffects({
+    enabled: soundEnabled,
+    volume: 0.2
   });
 
   // Play sounds based on scroll
   useEffect(() => {
     const scrollDelta = Math.abs(scrollProgress - lastScrollRef.current);
-    
+
     if (scrollDelta > 0.01 && soundEnabled) {
       if (scrollProgress > 0.15 && scrollProgress < 0.5) {
         playBubbleSound();
@@ -33,7 +36,7 @@ const Index = () => {
         playFizzSound();
       }
     }
-    
+
     lastScrollRef.current = scrollProgress;
   }, [scrollProgress, soundEnabled, playBubbleSound, playFizzSound]);
 
@@ -67,7 +70,11 @@ const Index = () => {
               className="text-center"
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-soda-orange animate-pulse" />
-              <h2 className="font-display text-4xl gradient-text">FIZZCRAFT</h2>
+              <div className="flex items-center gap-1">
+                <h2 className="font-display text-4xl gradient-text">WHITE</h2>
+                <h2 className="font-display text-4xl text-foreground text-glow">UP</h2>
+              </div>
+
               <p className="text-muted-foreground mt-2">Loading Experience...</p>
             </motion.div>
           </motion.div>
@@ -96,7 +103,7 @@ const Index = () => {
       <div className="fixed top-0 left-0 w-full h-1 z-40">
         <motion.div
           className="h-full bg-gradient-to-r from-primary via-neon-cyan to-primary"
-          style={{ 
+          style={{
             scaleX: scrollProgress,
             transformOrigin: 'left'
           }}
@@ -104,14 +111,20 @@ const Index = () => {
       </div>
 
       {/* 3D Bottle Scene - Fixed position */}
-      <BottleScene scrollProgress={scrollProgress} />
-      
+      {/* <BottleScene scrollProgress={scrollProgress} /> */}
+
       {/* Background bubble particles */}
       <BubbleParticles scrollProgress={scrollProgress} />
 
       {/* Scrollable content sections */}
       <div className="relative z-20">
-        <HeroSection />
+        {/* <Background3D /> */}
+
+        <Background3D rotationY={rotationY} />
+
+        {/* Scroll controller */}
+        <HeroSection setRotationY={setRotationY} />
+        {/* <HeroSection /> */}
         <StorySection />
         <CraftSection />
         <VisionSection />

@@ -7,104 +7,103 @@ interface SodaSpillProps {
 }
 
 export const SodaSpill = ({ scrollProgress }: SodaSpillProps) => {
-  const spillRef = useRef<THREE.Group>(null);
-  const particlesRef = useRef<THREE.Points>(null);
-  
-  const intensity = Math.max(0, (scrollProgress - 0.25) / 0.4);
-  
-  const particleCount = 200;
-  
-  const { positions, velocities, sizes } = useMemo(() => {
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
-    
-    for (let i = 0; i < particleCount; i++) {
-      // Starting positions around bottle neck
-      const angle = Math.random() * Math.PI * 2;
-      const radius = 0.1 + Math.random() * 0.15;
-      
-      positions[i * 3] = Math.cos(angle) * radius;
-      positions[i * 3 + 1] = 1.5;
-      positions[i * 3 + 2] = Math.sin(angle) * radius;
-      
-      // Upward velocities with spread
-      velocities[i * 3] = (Math.random() - 0.5) * 0.3;
-      velocities[i * 3 + 1] = 0.5 + Math.random() * 1;
-      velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
-      
-      sizes[i] = 0.02 + Math.random() * 0.05;
+  const pointsRef = useRef<THREE.Points>(null);
+
+  // spill starts after bottle opens
+  const intensity = Math.max(0, (scrollProgress - 0.32) / 0.4);
+  const count = 160;
+
+  const { positions, velocities } = useMemo(() => {
+    const p = new Float32Array(count * 3);
+    const v = new Float32Array(count * 3);
+
+    for (let i = 0; i < count; i++) {
+      // start near bottle mouth
+      p[i * 3] = (Math.random() - 0.5) * 0.12;
+      p[i * 3 + 1] = 1.55;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 0.12;
+
+      // upward burst then gravity
+      v[i * 3] = (Math.random() - 0.5) * 0.02;
+      v[i * 3 + 1] = 0.45 + Math.random() * 0.35;
+      v[i * 3 + 2] = (Math.random() - 0.5) * 0.02;
     }
-    
-    return { positions, velocities, sizes };
+
+    return { positions: p, velocities: v };
   }, []);
-  
-  const positionsRef = useRef(positions.slice());
-  
-  useFrame((state) => {
-    if (!particlesRef.current || intensity <= 0) return;
-    
-    const geometry = particlesRef.current.geometry;
-    const posAttr = geometry.attributes.position as THREE.BufferAttribute;
-    const time = state.clock.elapsedTime;
-    
-    for (let i = 0; i < particleCount; i++) {
-      // Update positions
-      const idx = i * 3;
-      
-      // Physics simulation with gravity
-      positionsRef.current[idx] = positions[idx] + velocities[idx] * Math.sin(time + i) * intensity;
-      positionsRef.current[idx + 1] = positions[idx + 1] + velocities[idx + 1] * ((time * 0.5 + i * 0.1) % 2) * intensity;
-      positionsRef.current[idx + 2] = positions[idx + 2] + velocities[idx + 2] * Math.cos(time + i) * intensity;
-      
-      posAttr.setXYZ(i, positionsRef.current[idx], positionsRef.current[idx + 1], positionsRef.current[idx + 2]);
+
+  useFrame(() => {
+    if (!pointsRef.current || intensity <= 0) return;
+
+    const pos = pointsRef.current.geometry.attributes.position as THREE.BufferAttribute;
+
+    for (let i = 0; i < count; i++) {
+      const i3 = i * 3;
+
+      // gravity
+      velocities[i3 + 1] -= 0.012;
+
+      // movement
+      positions[i3] += velocities[i3] * intensity;
+      positions[i3 + 1] += velocities[i3 + 1] * intensity;
+      positions[i3 + 2] += velocities[i3 + 2] * intensity;
+
+      // reset droplet after it falls
+      if (positions[i3 + 1] < -1.1) {
+        positions[i3] = (Math.random() - 0.5) * 0.12;
+        positions[i3 + 1] = 1.55;
+        positions[i3 + 2] = (Math.random() - 0.5) * 0.12;
+
+        velocities[i3] = (Math.random() - 0.5) * 0.02;
+        velocities[i3 + 1] = 0.4 + Math.random() * 0.4;
+        velocities[i3 + 2] = (Math.random() - 0.5) * 0.02;
+      }
+
+      pos.setXYZ(i, positions[i3], positions[i3 + 1], positions[i3 + 2]);
     }
-    
-    posAttr.needsUpdate = true;
+
+    pos.needsUpdate = true;
   });
 
   if (intensity <= 0) return null;
 
   return (
-    <group ref={spillRef}>
-      <points ref={particlesRef}>
+    <>
+      {/* Blue soda droplets */}
+      <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            count={particleCount}
-            array={positionsRef.current}
+            array={positions}
+            count={count}
             itemSize={3}
-          />
-          <bufferAttribute
-            attach="attributes-size"
-            count={particleCount}
-            array={sizes}
-            itemSize={1}
           />
         </bufferGeometry>
         <pointsMaterial
-          color="#ff6b35"
-          size={0.08}
+          color="#4bbcff"
+          size={0.045}
           transparent
-          opacity={0.8 * intensity}
+          opacity={0.55 * intensity}
           sizeAttenuation
-          blending={THREE.AdditiveBlending}
+          blending={THREE.NormalBlending}
         />
       </points>
-      
-      {/* Foam sphere at top */}
-      <mesh position={[0, 1.6 + intensity * 0.5, 0]} scale={intensity * 0.8}>
-        <sphereGeometry args={[0.3, 32, 32]} />
+
+      {/* Light foam at bottle mouth */}
+      <mesh
+        position={[0, 1.58 + intensity * 0.25, 0]}
+        scale={[0.6, 0.35, 0.6].map((v) => v * intensity)}
+      >
+        <sphereGeometry args={[0.32, 24, 24]} />
         <meshPhysicalMaterial
-          color="#ffaa55"
-          metalness={0}
-          roughness={0.3}
-          transmission={0.3}
-          thickness={0.5}
+          color="#e8f6ff"
+          roughness={0.45}
+          transmission={0.6}
+          thickness={0.3}
           transparent
-          opacity={0.9}
+          opacity={0.65}
         />
       </mesh>
-    </group>
+    </>
   );
 };
