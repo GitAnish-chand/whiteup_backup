@@ -141,6 +141,36 @@
 }
 
 
+/* OUR BRAND — strong premium water gradient */
+.text-gradient-brand {
+  background: linear-gradient(
+    90deg,
+    #00e5ff,   /* bright cyan */
+    #0ea5e9,   /* sky blue */
+    #2563eb    /* deep blue */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* 👇 visibility boost on glass */
+  text-shadow: 0 0 12px rgba(14, 165, 233, 0.35);
+}
+
+/* OTHER BRANDS — dark neutral, still readable */
+.text-gradient-muted {
+  background: linear-gradient(
+    90deg,
+    #e5e7eb,   /* near-white */
+    #9ca3af,   /* gray */
+    #6b7280    /* darker gray */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* subtle depth so it doesn't disappear */
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+}
+
 
   .gradient-text {
     background: var(--gradient-neon);

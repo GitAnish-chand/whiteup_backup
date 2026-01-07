@@ -26,7 +26,7 @@ const differences = [
     {
         our: "Mineral-preserving filtration",
         other: "Over-processed (RO) water",
-        icon: <XCircle className="text-red-400 w-5 h-5" />,
+        icon: <XCircle className="text-neon-cyan w-5 h-5" />,
     },
     {
         our: "Electrolyte-rich",
@@ -63,7 +63,12 @@ export const DifferenceTable = () => {
                 Why We're Different
             </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2
+                gap-20
+                sm:gap-24
+                md:gap-16
+                lg:gap-8 "
+                >
                 {/* OUR BRAND */}
                 <div>
                     <h4 className="text-neon-cyan font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs sm:text-sm lg:text-base">
@@ -73,7 +78,7 @@ export const DifferenceTable = () => {
                         {differences.map((item, i) => (
                             <li key={i} className="flex items-start gap-2 sm:gap-3">
                                 <span className="mt-0.5 sm:mt-1 flex-shrink-0">{item.icon}</span>
-                                <span className="text-sm sm:text-base lg:text-lg leading-relaxed">{item.our}</span>
+                                <span className="text-sm sm:text-base lg:text-lg leading-relaxed ">{item.our}</span>
                             </li>
                         ))}
                     </ul>
@@ -81,16 +86,16 @@ export const DifferenceTable = () => {
 
                 {/* OTHER BRANDS */}
                 <div>
-                    <h4 className="text-muted-foreground font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs sm:text-sm">
+                    <h4 className="text-muted-foreground font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs sm:text-sm ">
                         Other Brands
                     </h4>
-                    <ul className="space-y-3 sm:space-y-4">
+                    <ul className="space-y-3 sm:space-y-4  ">
                         {differences.map((item, i) => (
-                            <li key={i} className="flex items-start gap-2 sm:gap-3 text-muted-foreground">
-                                <span className="mt-0.5 sm:mt-1 flex-shrink-0">
-                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
+                            <li key={i} className="flex items-start gap-2 sm:gap-3 text-muted-foreground px-10">
+                                <span className="mt-0.5 sm:mt-1 flex-shrink-0 ">
+                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground text-red-500 w-5 h-5" />
                                 </span>
-                                <span className="text-xs sm:text-sm lg:text-base">{item.other}</span>
+                                <span className="text-xs sm:text-sm lg:text-base text-gradient-muted">{item.other}</span>
                             </li>
                         ))}
                     </ul>
