@@ -11,6 +11,7 @@ import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
 import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
+import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
@@ -211,6 +212,7 @@ useEffect(() => {
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
         <StorySection /> {/* MUST have id="story" */}
+        <PrebookedCustomers />
         <VisionSection />
         <ProductsSection />
         <CTASection />

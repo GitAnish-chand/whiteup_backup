@@ -102,7 +102,7 @@ export const DifferenceTable = () => {
                         {differences.map((item, i) => (
                             <li key={i} className="flex items-start gap-2 sm:gap-3 text-muted-foreground px-10">
                                 <span className="mt-0.5 sm:mt-1 flex-shrink-0 ">
-                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground text-red-500 w-5 h-5" />
+                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground text-red-500 w-4 h-5" />
                                 </span>
                                 <span className="text-xs sm:text-sm lg:text-base text-gradient-muted">{item.other}</span>
                             </li>
