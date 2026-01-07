@@ -9,7 +9,7 @@ import { VisionSection } from "@/components/sections/VisionSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
-import Background3D from "@/components/3d/Background3d";
+import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 
 const Index = () => {
