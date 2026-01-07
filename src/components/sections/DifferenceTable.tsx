@@ -68,10 +68,10 @@ export const DifferenceTable = () => {
                 sm:gap-24
                 md:gap-16
                 lg:gap-8 "
-                >
+            >
                 {/* OUR BRAND */}
                 <div>
-                    <h4 className="text-neon-cyan font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs sm:text-sm lg:text-base">
+                    <h4 className="text-neon-cyan font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs  lg:text-base ">
                         Our Brand
                     </h4>
                     <ul className="space-y-3 sm:space-y-4">
@@ -86,10 +86,19 @@ export const DifferenceTable = () => {
 
                 {/* OTHER BRANDS */}
                 <div>
-                    <h4 className="text-muted-foreground font-semibold mb-4 sm:mb-6 uppercase tracking-wider text-xs sm:text-sm ">
+                    <h4 className="
+                        text-white/80
+                        font-semibold
+                        px-14
+                        mb-4 sm:mb-6
+                        uppercase tracking-wider
+                        text-xs sm:text-sm
+                        [text-shadow:0_1px_2px_rgba(0,0,0,0.7)]
+                    ">
                         Other Brands
                     </h4>
-                    <ul className="space-y-3 sm:space-y-4  ">
+
+                    <ul className="space-y-2 sm:space-y-4  px-2 ">
                         {differences.map((item, i) => (
                             <li key={i} className="flex items-start gap-2 sm:gap-3 text-muted-foreground px-10">
                                 <span className="mt-0.5 sm:mt-1 flex-shrink-0 ">

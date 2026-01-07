@@ -1,8 +1,11 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const CTASection = () => {
   const ref = useRef(null);
+  const navigate = useNavigate();
+  
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
@@ -80,6 +83,7 @@ export const CTASection = () => {
 
             {/* SECONDARY CTA — COOL BUSINESS COLOR */}
             <button
+              onClick={() => navigate("/other-business")}
               className="
                   relative overflow-hidden
                   text-lg font-semibold

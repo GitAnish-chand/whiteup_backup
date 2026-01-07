@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 const Business1 = () => {
   return (
     <div className="relative min-h-screen bg-background overflow-hidden">
+
       {/* Glow background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-3xl" />

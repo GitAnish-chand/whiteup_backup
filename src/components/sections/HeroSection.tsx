@@ -125,7 +125,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
             </button>
 
             {/* SECONDARY CTA — COOL BUSINESS COLOR */}
-            <button
+            {/* <button
               onClick={() => navigate("/other-business")}
               className="
                   relative overflow-hidden
@@ -144,7 +144,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
                 "
             >
               Other Business
-            </button>
+            </button> */}
           </div>
         
         

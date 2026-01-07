@@ -85,29 +85,62 @@ const Index = () => {
   /* ---------------------------------------------
      Sound effects
   --------------------------------------------- */
-  const { playBubbleSound, playFizzSound } = useSoundEffects({
+  const { playBubbleSound } = useSoundEffects({
     enabled: soundEnabled,
-    volume: 0.2,
+    volume: 0.4,
   });
 
-  useEffect(() => {
-    const scrollDelta = Math.abs(scrollProgress - lastScrollRef.current);
+  // useEffect(() => {
+  //   const scrollDelta = Math.abs(scrollProgress - lastScrollRef.current);
 
-    if (scrollDelta > 0.01 && soundEnabled) {
-      if (scrollProgress > 0.15 && scrollProgress < 0.5) {
-        playBubbleSound();
-      }
-      if (scrollProgress > 0.25 && scrollProgress < 0.35) {
-        playFizzSound();
-      }
-    }
+  //   if (scrollDelta > 0.01 && soundEnabled) {
+  //     if (scrollProgress > 0.01 && scrollProgress < 0.5) {
+  //       playBubbleSound();
+  //     }
+  //   }
 
+  //   lastScrollRef.current = scrollProgress;
+  // }, [scrollProgress, soundEnabled, playBubbleSound]);
+
+useEffect(() => {
+  if (!soundEnabled) return;
+
+  const delta = scrollProgress - lastScrollRef.current;
+  const absDelta = Math.abs(delta);
+  const now = performance.now();
+
+  // Only downward scroll
+  if (delta <= 0) {
     lastScrollRef.current = scrollProgress;
-  }, [scrollProgress, soundEnabled, playBubbleSound, playFizzSound]);
+    return;
+  }
 
+  // Ignore tiny movement
+  if (absDelta < 0.01) {
+    lastScrollRef.current = scrollProgress;
+    return;
+  }
+
+  // Cooldown (natural bubbling)
+  if (!lastScrollRef.current || now - lastScrollRef.current < 120) {
+    lastScrollRef.current = scrollProgress;
+    return;
+  }
+
+  // Active bubbling zone
+  if (scrollProgress > 0.02 && scrollProgress < 0.5) {
+    playBubbleSound();
+    lastScrollRef.current = now;
+  }
+}, [scrollProgress, soundEnabled, playBubbleSound]);
+
+
+
+  
   /* ---------------------------------------------
      Loader
   --------------------------------------------- */
+
   useEffect(() => {
     const timer = setTimeout(() => setShowLoader(false), 2000);
     return () => clearTimeout(timer);
@@ -176,8 +209,8 @@ const Index = () => {
         <Background3D scale={bottleScale} enabled={showBottle} />
 
         <HeroSection setRotationY={setRotationY} />
-        <StorySection /> {/* MUST have id="story" */}
         <CraftSection />
+        <StorySection /> {/* MUST have id="story" */}
         <VisionSection />
         <ProductsSection />
         <CTASection />
