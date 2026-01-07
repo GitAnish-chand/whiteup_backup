@@ -83,7 +83,7 @@ export const CTASection = () => {
 
             {/* SECONDARY CTA — COOL BUSINESS COLOR */}
             <button
-              onClick={() => navigate("/other-business")}
+              onClick={() => navigate("/paper")}
               className="
                   relative overflow-hidden
                   text-lg font-semibold

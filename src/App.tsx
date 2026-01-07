@@ -7,8 +7,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-import OtherBusiness from "./pages/OtherBusiness";
+import OtherBusiness from "./pages/Paper";
+
 import BusinessLayout from "@/components/other_businesses/BusinessLayout";
+import Paper from "./pages/Paper";
+import Soda from "./pages/Soda";
 
 const queryClient = new QueryClient();
 
@@ -54,20 +57,23 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            {/* <Route path="/other-business" element={<OtherBusiness />} /> */}
+            {/* Layout route */}
+            <Route element={<BusinessLayout />}>
 
-            {/* Other Business section */}
-            <Route path="/other-business" element={<BusinessLayout />}>
-              <Route index element={<OtherBusiness />} />
-              {/* <Route path="brand" element={<BrandConsulting />} /> */}
-              {/* <Route path="3d" element={<Experiences3D />} /> */}
+              {/* Home page inside layout */}
+              <Route path="/" element={<Index />} />
+
+              {/* Other Business page inside layout */}
+              <Route path="/paper" element={<Paper />} />
+              <Route path="/soda" element= {<Soda /> } />
+
             </Route>
 
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+
       </ErrorBoundary>
     </TooltipProvider>
   </QueryClientProvider>

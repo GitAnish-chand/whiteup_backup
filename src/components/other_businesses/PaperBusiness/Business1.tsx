@@ -22,7 +22,7 @@ const Business1 = () => {
             gradient-text mb-6
           "
         >
-          Other Business
+         paper Business
         </motion.h1>
 
         {/* Subheading */}
