@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { DifferenceTable } from "./Differencetable";
+import { DifferenceTable } from "./DifferenceTable";
 
 // export const StorySection = () => {
 //   const ref = useRef(null);
