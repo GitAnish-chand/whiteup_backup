@@ -149,7 +149,7 @@ export const StorySection = () => {
                 <span className="font-display text-4xl text-primary">
                   100%
                 </span>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-md  text-green-400">
                   Natural Minerals
                 </p>
               </div>
@@ -157,7 +157,7 @@ export const StorySection = () => {
                 <span className="font-display text-4xl text-neon-cyan">
                   0%
                 </span>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-md text-red-700">
                   Added Chemicals
                 </p>
               </div>
@@ -165,7 +165,7 @@ export const StorySection = () => {
                 <span className="font-display text-4xl text-soda-orange">
                   pH
                 </span>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-muted-foreground text-md">
                   Balanced Taste
                 </p>
               </div>

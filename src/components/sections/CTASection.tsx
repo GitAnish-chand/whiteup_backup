@@ -98,9 +98,6 @@ export const CTASection = () => {
             >
               Other Business
             </button>
-
-
-
           </div>
 
 

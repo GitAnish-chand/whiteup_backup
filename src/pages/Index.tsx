@@ -10,6 +10,7 @@ import { CTASection } from "@/components/sections/CTASection";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
 import Background3D from "@/components/3d/Background3d";
+import { ProductsSection } from "@/components/sections/ProductsSection";
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
@@ -178,6 +179,7 @@ const Index = () => {
         <StorySection /> {/* MUST have id="story" */}
         <CraftSection />
         <VisionSection />
+        <ProductsSection />
         <CTASection />
       </div>
     </div>
