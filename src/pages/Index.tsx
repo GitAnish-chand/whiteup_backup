@@ -1,30 +1,94 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { BottleScene } from '@/components/3d/BottleScene';
-import { BubbleParticles } from '@/components/effects/BubbleParticles';
-import { HeroSection } from '@/components/sections/HeroSection';
-import { StorySection } from '@/components/sections/StorySection';
-import { CraftSection } from '@/components/sections/CraftSection';
-import { VisionSection } from '@/components/sections/VisionSection';
-import { CTASection } from '@/components/sections/CTASection';
-import { useScrollProgress } from '@/hooks/useScrollProgress';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
-import Background3D from '@/components/3d/Background3d';
 
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BubbleParticles } from "@/components/effects/BubbleParticles";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { StorySection } from "@/components/sections/StorySection";
+import { CraftSection } from "@/components/sections/CraftSection";
+import { VisionSection } from "@/components/sections/VisionSection";
+import { CTASection } from "@/components/sections/CTASection";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
+import Background3D from "@/components/3d/Background3d";
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
+
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
-  const lastScrollRef = useRef(0);
-  const [rotationY, setRotationY] = useState(0);
 
+  const lastScrollRef = useRef(0);
+
+  const [rotationY, setRotationY] = useState(0);
+  const [bottleScale, setBottleScale] = useState(0.1);
+
+  // 👇 controls fade-out
+  const [showBottle, setShowBottle] = useState(true);
+
+  /* ---------------------------------------------
+     Fade bottle AFTER Story section
+  --------------------------------------------- */
+  useEffect(() => {
+    const story = document.getElementById("story");
+    if (!story) return;
+
+    const onScroll = () => {
+      const rect = story.getBoundingClientRect();
+
+      // Story fully passed → fade bottle
+      if (rect.bottom <= 0) {
+        setShowBottle(false);
+      }
+
+      // When story is visible again → show bottle
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setShowBottle(true);
+    }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ---------------------------------------------
+     Bottle scaling (Hero + Story)
+  --------------------------------------------- */
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+
+    const onScroll = () => {
+      const rect = hero.getBoundingClientRect();
+      const heroHeight = rect.height;
+
+      const progress = Math.min(
+        Math.max(-rect.top / heroHeight, 0),
+        1
+      );
+
+      const BASE_SCALE = 0.1;
+      const MIN_SCALE = 0.06;
+
+      const scale =
+        BASE_SCALE - progress * (BASE_SCALE - MIN_SCALE);
+
+      setBottleScale(scale);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ---------------------------------------------
+     Sound effects
+  --------------------------------------------- */
   const { playBubbleSound, playFizzSound } = useSoundEffects({
     enabled: soundEnabled,
-    volume: 0.2
+    volume: 0.2,
   });
 
-  // Play sounds based on scroll
   useEffect(() => {
     const scrollDelta = Math.abs(scrollProgress - lastScrollRef.current);
 
@@ -40,21 +104,21 @@ const Index = () => {
     lastScrollRef.current = scrollProgress;
   }, [scrollProgress, soundEnabled, playBubbleSound, playFizzSound]);
 
-  // Loader animation
+  /* ---------------------------------------------
+     Loader
+  --------------------------------------------- */
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 2000);
+    const timer = setTimeout(() => setShowLoader(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
   const toggleSound = useCallback(() => {
-    setSoundEnabled(prev => !prev);
+    setSoundEnabled((prev) => !prev);
   }, []);
 
   return (
     <div className="relative min-h-screen bg-background overflow-x-hidden">
-      {/* Loading screen */}
+      {/* Loader */}
       <AnimatePresence>
         {showLoader && (
           <motion.div
@@ -71,61 +135,47 @@ const Index = () => {
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-soda-orange animate-pulse" />
               <div className="flex items-center gap-1">
-                <h2 className="font-display text-4xl gradient-text">WHITE</h2>
-                <h2 className="font-display text-4xl text-foreground text-glow">UP</h2>
+                <h2 className="font-display text-4xl gradient-text">
+                  WHITE
+                </h2>
+                <h2 className="font-display text-4xl text-foreground text-glow">
+                  UP
+                </h2>
               </div>
-
-              <p className="text-muted-foreground mt-2">Loading Experience...</p>
+              <p className="text-muted-foreground mt-2">
+                Loading Experience...
+              </p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Sound toggle button */}
+      {/* Sound toggle */}
       <button
         onClick={toggleSound}
         className="fixed top-6 right-6 z-40 glass rounded-full p-3 hover:bg-card/80 transition-all duration-300"
-        aria-label={soundEnabled ? 'Mute sounds' : 'Enable sounds'}
       >
-        {soundEnabled ? (
-          <svg className="w-5 h-5 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-          </svg>
-        ) : (
-          <svg className="w-5 h-5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-          </svg>
-        )}
+        {soundEnabled ? "🔊" : "🔇"}
       </button>
 
-      {/* Scroll progress indicator */}
+      {/* Scroll progress */}
       <div className="fixed top-0 left-0 w-full h-1 z-40">
         <motion.div
           className="h-full bg-gradient-to-r from-primary via-neon-cyan to-primary"
-          style={{
-            scaleX: scrollProgress,
-            transformOrigin: 'left'
-          }}
+          style={{ scaleX: scrollProgress, transformOrigin: "left" }}
         />
       </div>
 
-      {/* 3D Bottle Scene - Fixed position */}
-      {/* <BottleScene scrollProgress={scrollProgress} /> */}
-
-      {/* Background bubble particles */}
+      {/* Bubble background */}
       <BubbleParticles scrollProgress={scrollProgress} />
 
-      {/* Scrollable content sections */}
+      {/* Content */}
       <div className="relative z-20">
-        {/* <Background3D /> */}
+        {/* 3D Bottle with fade */}
+        <Background3D scale={bottleScale} enabled={showBottle} />
 
-        <Background3D rotationY={rotationY} />
-
-        {/* Scroll controller */}
         <HeroSection setRotationY={setRotationY} />
-        {/* <HeroSection /> */}
-        <StorySection />
+        <StorySection /> {/* MUST have id="story" */}
         <CraftSection />
         <VisionSection />
         <CTASection />

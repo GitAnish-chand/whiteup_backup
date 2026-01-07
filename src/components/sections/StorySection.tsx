@@ -7,7 +7,7 @@ export const StorySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="section-container relative py-32">
+    <section ref={ref} className="section-container relative py-32" id="story">
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent" />
@@ -35,20 +35,23 @@ export const StorySection = () => {
               ancient mineral-rich rock formations. This natural
               filtration process enriches every drop with essential minerals and vitamins that your body craves
             </p>
+
             <div className="flex gap-8">
               <div>
-                <span className="font-display text-4xl text-primary">15+</span>
-                <p className="text-muted-foreground text-sm">Years of Innovation</p>
+                <span className="font-display text-4xl text-primary">100%</span>
+                <p className="text-muted-foreground text-sm">Natural Minerals</p>
               </div>
               <div>
-                <span className="font-display text-4xl text-neon-cyan">50M+</span>
-                <p className="text-muted-foreground text-sm">Bottles Crafted</p>
+                <span className="font-display text-4xl text-neon-cyan">0%</span>
+                <p className="text-muted-foreground text-sm">Added Chemicals</p>
               </div>
               <div>
-                <span className="font-display text-4xl text-soda-orange">30+</span>
-                <p className="text-muted-foreground text-sm">Global Markets</p>
+                <span className="font-display text-4xl text-soda-orange">pH</span>
+                <p className="text-muted-foreground text-sm">Balanced Taste</p>
               </div>
             </div>
+
+
           </motion.div>
 
           {/* Right visual placeholder - 3D bottle takes this space */}

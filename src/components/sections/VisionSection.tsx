@@ -37,11 +37,11 @@ export const VisionSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-primary uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
+          <span className=" text-primary uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
             Our Vision
           </span>
           <h2 className="font-display text-5xl md:text-7xl mb-6 flex flex-col">
-            <span className="gradient-text-soda bg-black/20 backdrop-blur-sm text-glow">HYDRATING </span>
+            <span className=" bg-black/20 backdrop-blur-sm text-glow">HYDRATING </span>
             <span className="text-foreground gradient-text bg-black/20 backdrop-blur-sm "> THE FUTURE</span>
           </h2>
           <p className=" text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
@@ -81,20 +81,33 @@ export const VisionSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
+          className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-24"
         >
           {[
-            { value: "95%", label: "Recycled Materials" },
-            { value: "12K", label: "Trees Planted" },
-            { value: "40%", label: "Energy Saved" },
-            { value: "100+", label: "Partners Worldwide" }
+            { value: "Natural", label: "Mineral Source", color: "from-emerald-400 to-teal-300" },
+            { value: "Pure", label: "Carefully Filtered", color: "from-cyan-400 to-sky-300" },
+            { value: "Balanced", label: "Taste Profile", color: "from-indigo-400 to-purple-400" },
+            { value: "Safe", label: "Quality Checked", color: "from-orange-400 to-amber-300" }
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <span className="font-display text-4xl md:text-5xl gradient-text">{stat.value}</span>
-              <p className="text-muted-foreground text-sm mt-2">{stat.label}</p>
+              <span
+                className={`
+          font-display font-semibold
+          text-3xl sm:text-4xl md:text-5xl lg:text-6xl
+          bg-gradient-to-r ${stat.color}
+          bg-clip-text text-transparent
+        `}
+              >
+                {stat.value}
+              </span>
+
+              <p className="text-muted-foreground text-sm sm:text-base mt-3">
+                {stat.label}
+              </p>
             </div>
           ))}
         </motion.div>
+
       </div>
     </section>
   );

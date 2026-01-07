@@ -61,10 +61,31 @@ export const CraftSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-primary uppercase tracking-[0.3em] text-sm font-semibold mb-4 block   bg-black/20 backdrop-blur-sm text-glow">
-            The white Up
-          </span>
+        
 
+          <span
+            className="
+                text-primary uppercase font-semibold block
+                tracking-[0.2em]
+
+                /* Responsive text size */
+                text-xs
+                sm:text-sm
+                md:text-base
+                lg:text-lg
+                xl:text-xl
+
+                /* Spacing & style */
+                px-4 py-2
+                rounded-full
+                backdrop-blur-sm bg-black/30
+                text-orange-300
+                drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
+                text-glow
+              "
+          >
+            The White Up
+          </span>
 
 
 
@@ -82,16 +103,16 @@ export const CraftSection = () => {
 
 
           </h2>
-          <p 
-          // className="text-muted-foreground text-lg max-w-2xl mx-auto"
-          className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm"
+          <p
+            // className="text-muted-foreground text-lg max-w-2xl mx-auto"
+            className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm"
           >
             Every sip is a symphony of carefully curated ingredients,
             crafted with precision and passion.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 bg-black/10 backdrop-blur-sm">
           {minerals.map((item, index) => (
             <motion.div
               key={item.title}
@@ -106,7 +127,7 @@ export const CraftSection = () => {
               <h3 className="font-display text-xl text-foreground mb-3">
                 {item.title}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="text-muted-foreground text-sm leading-relaxed text-white text-sm md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl">
                 {item.description}
               </p>
             </motion.div>

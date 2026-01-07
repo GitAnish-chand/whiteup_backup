@@ -4,14 +4,14 @@ import { useRef } from 'react';
 export const CTASection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  
+
   return (
     <section ref={ref} className="section-container relative py-32 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-water-deep/20 via-neon-cyan/10 to-transparent rounded-full blur-3xl" />
       </div>
-      
+
       <div className="container relative z-20 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -27,35 +27,83 @@ export const CTASection = () => {
             className="mb-8"
           >
             <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-neon-cyan to-water-deep flex items-center justify-center">
-              <span className="font-display text-3xl text-background">PL</span>
+              <span className="font-display text-3xl text-background">Wu</span>
             </div>
           </motion.div>
-          
+
           <h2 className="font-display text-6xl md:text-8xl mb-6">
-            <span className="gradient-text-water">white</span>
+            <span className="gradient-text-water ">white</span>
             <span className="text-foreground text-glow">up</span>
           </h2>
-          
+
           <p className="text-2xl lg:text-3xl text-muted-foreground font-body mb-4
            text-primary  tracking-[0.1em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
             Hydration Reimagined
           </p>
-          
+
           <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-12
           text-white  mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
-            Experience the perfect blend of nature's minerals and modern wellness. 
+            Experience the perfect blend of nature's minerals and modern wellness.
             Every sip brings you closer to optimal health.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <button className="btn-premium text-lg px-10 py-4">
-              Find a Store
+              Contact Us
             </button>
             <button className="btn-outline-neon text-lg px-10 py-4">
               Learn More
             </button>
+          </div> */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+
+            {/* PRIMARY CTA — ORANGE GRADIENT */}
+            <button
+              className="
+                  relative overflow-hidden
+                  text-lg font-semibold
+                  px-10 py-4 rounded-full
+                  text-white
+
+                  bg-gradient-to-r
+                  from-orange-400 via-orange-500 to-amber-400
+
+                  shadow-[0_10px_30px_rgba(251,146,60,0.45)]
+                  hover:shadow-[0_15px_45px_rgba(251,146,60,0.7)]
+                  hover:scale-105
+
+                  transition-all duration-300 ease-out
+                "
+            >
+              Contact Us
+            </button>
+
+            {/* SECONDARY CTA — COOL BUSINESS COLOR */}
+            <button
+              className="
+                  relative overflow-hidden
+                  text-lg font-semibold
+                  px-10 py-4 rounded-full
+                  text-white
+
+                  bg-gradient-to-r
+                  from-purple-500 via-fuchsia-500 to-pink-500
+
+                  shadow-[0_10px_30px_rgba(168,85,247,0.45)]
+                  hover:shadow-[0_15px_45px_rgba(236,72,153,0.6)]
+                  hover:scale-105
+
+                  transition-all duration-300 ease-out
+                "
+            >
+              Other Business
+            </button>
+
+
+
           </div>
-          
+
+
           {/* Mineral badges */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -73,7 +121,7 @@ export const CTASection = () => {
             ))}
           </motion.div>
         </motion.div>
-        
+
         {/* Footer info */}
         <motion.div
           initial={{ opacity: 0 }}
