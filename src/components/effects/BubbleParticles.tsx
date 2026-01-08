@@ -44,7 +44,7 @@ export const BubbleParticles = ({ scrollProgress }: BubbleParticlesProps) => {
   /* -------------------------------------------
      Bubble configuration
   -------------------------------------------- */
-  const bubbleCount = hasInteracted ? 90 : 280;
+  const bubbleCount = hasInteracted ? 100 : 200;
 
   const bubbles = useMemo<Bubble[]>(() => {
     return Array.from({ length: bubbleCount }, (_, i) => ({

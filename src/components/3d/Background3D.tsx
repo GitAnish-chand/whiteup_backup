@@ -2,7 +2,7 @@
 // ----------------------------------------------------------------------------------------------
 
 
-import { Canvas, useFrame,useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, useGLTF } from "@react-three/drei";
 import { FC, Suspense, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
@@ -71,36 +71,36 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   const tilt = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-  const handleMouseMove = (e: MouseEvent) => {
-    mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
-  };
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
 
-  window.addEventListener("mousemove", handleMouseMove);
-  return () => window.removeEventListener("mousemove", handleMouseMove);
-}, []);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
 
   /* ---------------- Gyroscope control ---------------- */
 
 
 
-useEffect(() => {
-  const handleOrientation = (e: DeviceOrientationEvent) => {
-    if (e.beta == null || e.gamma == null) return;
+  useEffect(() => {
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      if (e.beta == null || e.gamma == null) return;
 
-    // Clamp values
-    const x = THREE.MathUtils.clamp(e.gamma / 30, -1, 1);
-    const y = THREE.MathUtils.clamp(e.beta / 45, -1, 1);
+      // Clamp values
+      const x = THREE.MathUtils.clamp(e.gamma / 30, -1, 1);
+      const y = THREE.MathUtils.clamp(e.beta / 45, -1, 1);
 
-    tilt.current.x = x;
-    tilt.current.y = y;
-  };
+      tilt.current.x = x;
+      tilt.current.y = y;
+    };
 
-  window.addEventListener("deviceorientation", handleOrientation, true);
-  return () =>
-    window.removeEventListener("deviceorientation", handleOrientation);
-}, []);
+    window.addEventListener("deviceorientation", handleOrientation, true);
+    return () =>
+      window.removeEventListener("deviceorientation", handleOrientation);
+  }, []);
 
 
   /* ---------------- Center Model ---------------- */
@@ -150,58 +150,58 @@ useEffect(() => {
   // });
 
   useFrame(() => {
-  if (!groupRef.current) return;
+    if (!groupRef.current) return;
 
-  const mx = mouse.current.x;
-  const my = mouse.current.y;
+    const mx = mouse.current.x;
+    const my = mouse.current.y;
 
-  /* ---------------- POSITION (cursor control) ---------------- */
-  const targetX = mx * 2.5;
-  const targetY = my * 1.6 - 0.8;
-  const targetZ = -Math.abs(mx) * 0.8;
+    /* ---------------- POSITION (cursor control) ---------------- */
+    const targetX = mx * 2.5;
+    const targetY = my * 1.6 - 0.8;
+    const targetZ = -Math.abs(mx) * 0.8;
 
-  groupRef.current.position.x = THREE.MathUtils.lerp(
-    groupRef.current.position.x,
-    targetX,
-    0.08
-  );
+    groupRef.current.position.x = THREE.MathUtils.lerp(
+      groupRef.current.position.x,
+      targetX,
+      0.08
+    );
 
-  groupRef.current.position.y = THREE.MathUtils.lerp(
-    groupRef.current.position.y,
-    targetY,
-    0.08
-  );
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      targetY,
+      0.08
+    );
 
-  groupRef.current.position.z = THREE.MathUtils.lerp(
-    groupRef.current.position.z,
-    targetZ,
-    0.08
-  );
+    groupRef.current.position.z = THREE.MathUtils.lerp(
+      groupRef.current.position.z,
+      targetZ,
+      0.08
+    );
 
-  /* ---------------- ROTATION (same direction) ---------------- */
-  const rotX = my * 0.45;
-  const rotY = mx * 0.7 + Math.PI / 4;
+    /* ---------------- ROTATION (same direction) ---------------- */
+    const rotX = my * 0.45;
+    const rotY = mx * 0.7 + Math.PI / 4;
 
-  groupRef.current.rotation.x = THREE.MathUtils.lerp(
-    groupRef.current.rotation.x,
-    rotX,
-    0.08
-  );
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      rotX,
+      0.08
+    );
 
-  groupRef.current.rotation.y = THREE.MathUtils.lerp(
-    groupRef.current.rotation.y,
-    rotY,
-    0.08
-  );
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(
+      groupRef.current.rotation.y,
+      rotY,
+      0.08
+    );
 
-  /* ---------------- SCALE ---------------- */
-  groupRef.current.scale.lerp(
-    new THREE.Vector3(scale, scale, scale),
-    0.1
-  );
-});
+    /* ---------------- SCALE ---------------- */
+    groupRef.current.scale.lerp(
+      new THREE.Vector3(scale, scale, scale),
+      0.1
+    );
+  });
 
-  
+
   return (
     <group ref={groupRef}>
       <primitive object={scene} position={[0, -0.8, 0]} />
@@ -230,11 +230,19 @@ const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
         pointerEvents: "none",
       }}
     >
-      <Canvas camera={{ position: [0, 0, 6], fov: 35 }}>
+      {/* <Canvas camera={{ position: [0, 0, 6], fov: 35 }}> */}
+      <Canvas
+        dpr={[1, 1.5]}
+        frameloop="always"
+        camera={{ position: [0, 0, 6], fov: 30 }}
+      >
+      
         <ambientLight intensity={0.6} />
         <hemisphereLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
-        <Environment preset="studio" />
+        <directionalLight position={[3, 3, 3]} intensity={0.8} />
+        
+
+        <Environment preset="warehouse" />
         <Suspense fallback={null}>
           <BottleModel scale={scale} />
         </Suspense>
