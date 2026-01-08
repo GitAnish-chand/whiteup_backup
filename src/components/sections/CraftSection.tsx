@@ -295,41 +295,55 @@ export const CraftSection = () => {
   const bubbleRefs = useRef<HTMLDivElement[]>([]);
   const positions = useRef<Point[]>([]);
 
-  /* ---------------- RESPONSIVE CONFIG ---------------- */
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
 
-  const BUBBLE_SIZE = isMobile ? 110 : 160;
-  const SAFE_DISTANCE = isMobile ? 140 : 190;
-  const MAX_ATTEMPTS = 50;
+  /* ---------------- CONFIG ---------------- */
+  const BUBBLE_SIZE = isMobile ? 100 : 160;
+  const SAFE_DISTANCE = isMobile ? 130 : 190;
+  const MAX_ATTEMPTS = 80;
 
-  const MIN_RADIUS = isMobile ? 90 : 150;
-  const MAX_RADIUS = isMobile ? 240 : 410;
+  const DESKTOP_RADIUS = { min: 150, max: 410 };
+  const MOBILE_RADIUS = { min: 80, max: 180 };
 
-  const FLOAT_RANGE = isMobile ? 3 : 5;
+  const FLOAT_RANGE = isMobile ? 2 : 5;
+
+  /* ---------------- SCREEN BOUNDS ---------------- */
+  const STAGE_WIDTH = isMobile
+    ? window.innerWidth
+    : 900;
+
+  const STAGE_HEIGHT = isMobile
+    ? 420
+    : 520;
+
+  const HALF_W = STAGE_WIDTH / 2 - BUBBLE_SIZE / 2;
+  const HALF_H = STAGE_HEIGHT / 2 - BUBBLE_SIZE / 2;
 
   /* ---------------- Collision Check ---------------- */
   const overlaps = (p: Point) => {
     return positions.current.some(
-      (q) =>
-        Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
+      (q) => Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
     );
   };
 
-  /* ---------------- Generate Safe Random Position ---------------- */
-  const generatePosition = (isLeft: boolean): Point => {
+  /* ---------------- Generate Position ---------------- */
+  const generatePosition = (index: number): Point => {
     let attempt = 0;
 
     while (attempt < MAX_ATTEMPTS) {
-      const angle = gsap.utils.random(
-        isLeft ? Math.PI / 2 : -Math.PI / 2,
-        isLeft ? (3 * Math.PI) / 2 : Math.PI / 2
+      const angle = gsap.utils.random(0, Math.PI * 2);
+      const radius = gsap.utils.random(
+        isMobile ? MOBILE_RADIUS.min : DESKTOP_RADIUS.min,
+        isMobile ? MOBILE_RADIUS.max : DESKTOP_RADIUS.max
       );
 
-      const radius = gsap.utils.random(MIN_RADIUS, MAX_RADIUS);
+      let x = Math.cos(angle) * radius;
+      let y = Math.sin(angle) * radius * (isMobile ? 0.6 : 0.7);
 
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius * (isMobile ? 0.5 : 0.7);
+      // 🔒 Clamp to screen bounds (CRITICAL FIX)
+      x = gsap.utils.clamp(-HALF_W, HALF_W, x);
+      y = gsap.utils.clamp(-HALF_H, HALF_H, y);
 
       const point = { x, y };
 
@@ -341,10 +355,10 @@ export const CraftSection = () => {
       attempt++;
     }
 
-    // fallback (never overlaps)
+    // Fallback: vertical stacking (never overlaps, never overflows)
     return {
-      x: isLeft ? -MIN_RADIUS : MIN_RADIUS,
-      y: 0,
+      x: 0,
+      y: -HALF_H + index * SAFE_DISTANCE,
     };
   };
 
@@ -353,10 +367,8 @@ export const CraftSection = () => {
     positions.current = [];
 
     bubbleRefs.current.forEach((bubble, i) => {
-      const isLeft = i % 2 === 0;
-      const { x, y } = generatePosition(isLeft);
+      const { x, y } = generatePosition(i);
 
-      // Entry animation
       gsap.fromTo(
         bubble,
         {
@@ -370,8 +382,8 @@ export const CraftSection = () => {
           y,
           scale: 1,
           opacity: 1,
-          duration: 1.3,
-          delay: i * 0.12,
+          duration: 1.2,
+          delay: i * 0.1,
           ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -380,14 +392,13 @@ export const CraftSection = () => {
         }
       );
 
-      // Floating (safe + subtle)
       gsap.to(bubble, {
         yPercent: gsap.utils.random(-FLOAT_RANGE, FLOAT_RANGE),
         duration: gsap.utils.random(3.5, 5),
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: i * 0.3,
+        delay: i * 0.25,
       });
     });
   }, []);
@@ -399,7 +410,10 @@ export const CraftSection = () => {
     >
       {/* Heading */}
       <div className="absolute top-20 text-center z-10 px-4">
-        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs sm:text-sm">
+        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs sm:text-sm backdrop-blur-sm bg-black/30
+                text-orange-300
+                drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
+                ">
           The White Up
         </span>
         <h2 className="font-display text-4xl sm:text-5xl md:text-7xl mt-4">
@@ -409,7 +423,13 @@ export const CraftSection = () => {
       </div>
 
       {/* Bubble Stage */}
-      <div className="relative w-full h-[600px] sm:h-[700px] flex items-center justify-center">
+      <div
+        className="relative flex items-center justify-center"
+        style={{
+          width: isMobile ? "100%" : 900,
+          height: isMobile ? 420 : 520,
+        }}
+      >
         {minerals.map((m, i) => (
           <div
             key={m.title}
@@ -433,17 +453,17 @@ export const CraftSection = () => {
               pointer-events-none
             "
           >
-            <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">
+            <div className="text-xl sm:text-2xl mb-1">
               {m.icon}
             </div>
-            <div className="font-semibold tracking-wide text-[11px] sm:text-sm px-2">
+            <div className="font-semibold tracking-wide text-[10px] sm:text-sm px-2">
               {m.title}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Ambient Glows */}
+      {/* Ambient Glows (desktop only) */}
       <div className="absolute left-1/3 top-1/2 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-3xl hidden sm:block" />
       <div className="absolute right-1/4 top-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl hidden sm:block" />
     </section>
