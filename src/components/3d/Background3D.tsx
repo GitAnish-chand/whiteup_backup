@@ -424,12 +424,22 @@
 
 // useGLTF.preload("/models/plastic_bottle.glb");
 
-
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, useGLTF } from "@react-three/drei";
 import { FC, Suspense, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import * as THREE from "three";
+
+/* ------------------------------------------------ */
+/* Helpers                                          */
+/* ------------------------------------------------ */
+
+const isMobile =
+  typeof window !== "undefined" && window.innerWidth < 768;
+
+/* ------------------------------------------------ */
+/* Bottle Model                                     */
+/* ------------------------------------------------ */
 
 interface BottleModelProps {
   scale: number;
@@ -444,49 +454,56 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   const mouse = useRef({ x: 0, y: 0 });
   const introDone = useRef(false);
 
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
-
-  /* ---------------- Mouse (DESKTOP ONLY) ---------------- */
+  /* -------- Desktop mouse only -------- */
   useEffect(() => {
     if (isMobile) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const onMove = (e: MouseEvent) => {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [isMobile]);
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
 
-  /* ---------------- Setup ---------------- */
+  /* -------- Setup -------- */
   useEffect(() => {
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
     scene.position.sub(center);
 
     scene.traverse((child: any) => {
-      if (child.isMesh) {
-        child.material.side = THREE.DoubleSide;
+      if (!child.isMesh) return;
+
+      child.castShadow = false;
+      child.receiveShadow = false;
+
+      /* 🔥 Mobile material override */
+      if (isMobile) {
+        child.material = new THREE.MeshStandardMaterial({
+          color: child.material.color ?? new THREE.Color("#ffffff"),
+          roughness: 0.6,
+          metalness: 0.1,
+        });
+      } else {
         child.material.transparent = false;
+        child.material.side = THREE.DoubleSide;
       }
     });
 
     if (groupRef.current) {
       groupRef.current.scale.setScalar(scale);
       groupRef.current.rotation.set(0, Math.PI / 4, 0);
-
-      // start below (intro)
-      groupRef.current.position.set(0, -1.6, 0);
+      groupRef.current.position.set(0, -1.5, 0); // intro start
     }
   }, [scene, scale]);
 
-  /* ---------------- Animation ---------------- */
+  /* -------- Animation -------- */
   useFrame((state, delta) => {
     if (!groupRef.current) return;
 
-    /* ---- INTRO (ALL DEVICES) ---- */
+    /* INTRO (all devices) */
     if (!introDone.current) {
       groupRef.current.position.y = THREE.MathUtils.damp(
         groupRef.current.position.y,
@@ -504,30 +521,23 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
       return;
     }
 
-    /* ---- MOBILE: IDLE ROTATION ONLY ---- */
-    if (isMobile) {
-      groupRef.current.rotation.y += delta * 0.2; // very light
-      state.invalidate();
-      return;
-    }
+    /* 🚫 MOBILE: STOP HERE (NO ANIMATION) */
+    if (isMobile) return;
 
-    /* ---- DESKTOP: INTERACTIVE ---- */
+    /* DESKTOP interaction */
     const mx = mouse.current.x;
     const my = mouse.current.y;
 
-    const targetRotX = my * 0.25;
-    const targetRotY = mx * 0.35 + Math.PI / 4;
-
     groupRef.current.rotation.x = THREE.MathUtils.damp(
       groupRef.current.rotation.x,
-      targetRotX,
+      my * 0.25,
       6,
       delta
     );
 
     groupRef.current.rotation.y = THREE.MathUtils.damp(
       groupRef.current.rotation.y,
-      targetRotY,
+      mx * 0.35 + Math.PI / 4,
       6,
       delta
     );
@@ -542,20 +552,21 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   );
 };
 
+/* ------------------------------------------------ */
+/* Background Canvas                                */
+/* ------------------------------------------------ */
+
 interface Background3DProps {
   scale: number;
   enabled: boolean;
 }
 
 const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: enabled ? 1 : 0 }}
-      transition={{ duration: 1, ease: "easeOut" }}
+      transition={{ duration: 1 }}
       style={{
         position: "fixed",
         inset: 0,
@@ -565,14 +576,15 @@ const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
     >
       <Canvas
         frameloop="demand"
-        dpr={isMobile ? 1 : [1, 1.5]}
+        dpr={1}
         camera={{ position: [0, 0, 6], fov: 30 }}
       >
-        <ambientLight intensity={0.6} />
-        <hemisphereLight intensity={0.4} />
-        <directionalLight position={[3, 3, 3]} intensity={0.8} />
+        {/* Simple lighting (mobile-safe) */}
+        <ambientLight intensity={0.9} />
+        <directionalLight position={[3, 3, 3]} intensity={0.6} />
 
-        <Environment preset="warehouse" />
+        {/* Desktop-only environment */}
+        {!isMobile && <Environment preset="warehouse" />}
 
         <Suspense fallback={null}>
           <BottleModel scale={scale} />
