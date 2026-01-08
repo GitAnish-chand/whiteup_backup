@@ -16,7 +16,7 @@ const customers = [
 
 const PrebookedCustomers = () => {
     return (
-        <section className="relative py-16 overflow-hidden">
+        <section className="relative py-16 overflow-hidden pt-24 pb-40">
             {/* Heading */}
             <div className="text-center mb-10 ">
                 <h3 className=" uppercase tracking-widest text-xl mb-3  text-blue-500  text-glow ">
@@ -29,6 +29,7 @@ const PrebookedCustomers = () => {
             </div>
 
             {/* Carousel */}
+            
             <div className="relative w-full overflow-hidden">
                 <motion.div
                     className="flex gap-8 w-max will-change-transform"
@@ -59,8 +60,12 @@ const PrebookedCustomers = () => {
                         </div>
                     ))}
                 </motion.div>
+            
             </div>
+            
+            
         </section>
+        
     );
 };
 

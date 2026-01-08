@@ -68,7 +68,7 @@ const Index = () => {
         1
       );
 
-      const BASE_SCALE = 0.1;
+      const BASE_SCALE = 0.08;
       const MIN_SCALE = 0.06;
 
       const scale =

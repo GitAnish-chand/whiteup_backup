@@ -1,143 +1,451 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+// import { motion, useInView } from 'framer-motion';
+// import { useRef } from 'react';
 
-const minerals = [
-  {
-    title: "Vitamin B12",
-    description: "Essential for energy production and nervous system health. Supports cognitive function.",
-    icon: "💎",
-    amount: "2.4μg"
-  },
-  {
-    title: "Calcium (Ca)",
-    description: "Strengthens bones and teeth. Supports muscle function and heart health.",
-    icon: "🦴",
-    amount: "80mg"
-  },
-  {
-    title: "Magnesium (Mg)",
-    description: "Aids muscle relaxation and energy metabolism. Reduces fatigue and stress.",
-    icon: "⚡",
-    amount: "25mg"
-  },
-  {
-    title: "Potassium (K)",
-    description: "Regulates fluid balance and blood pressure. Essential for heart function.",
-    icon: "❤️",
-    amount: "10mg"
-  },
-  {
-    title: "Zinc (Zn)",
-    description: "Boosts immune system and wound healing. Supports skin health.",
-    icon: "🛡️",
-    amount: "1.5mg"
-  },
-  {
-    title: "Sodium (Na)",
-    description: "Maintains fluid balance and supports nerve function. Natural electrolyte.",
-    icon: "💧",
-    amount: "15mg"
-  }
-];
+// const minerals = [
+//   {
+//     title: "Vitamin B12",
+//     description: "Essential for energy production and nervous system health. Supports cognitive function.",
+//     icon: "💎",
+//     amount: "2.4μg"
+//   },
+//   {
+//     title: "Calcium (Ca)",
+//     description: "Strengthens bones and teeth. Supports muscle function and heart health.",
+//     icon: "🦴",
+//     amount: "80mg"
+//   },
+//   {
+//     title: "Magnesium (Mg)",
+//     description: "Aids muscle relaxation and energy metabolism. Reduces fatigue and stress.",
+//     icon: "⚡",
+//     amount: "25mg"
+//   },
+//   {
+//     title: "Potassium (K)",
+//     description: "Regulates fluid balance and blood pressure. Essential for heart function.",
+//     icon: "❤️",
+//     amount: "10mg"
+//   },
+//   {
+//     title: "Zinc (Zn)",
+//     description: "Boosts immune system and wound healing. Supports skin health.",
+//     icon: "🛡️",
+//     amount: "1.5mg"
+//   },
+//   {
+//     title: "Sodium (Na)",
+//     description: "Maintains fluid balance and supports nerve function. Natural electrolyte.",
+//     icon: "💧",
+//     amount: "15mg"
+//   }
+// ];
 
-export const CraftSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+// export const CraftSection = () => {
+//   const ref = useRef(null);
+//   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  return (
-    <section ref={ref} className="section-container relative py-32">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
+//   return (
+//     <section ref={ref} className="section-container relative py-32">
+//       {/* Background pattern */}
+//       <div className="absolute inset-0 opacity-5">
+//         <div className="absolute inset-0" style={{
+//           backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 0)`,
+//           backgroundSize: '40px 40px'
+//         }} />
+//       </div>
 
-      <div className="container relative z-20 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
+//       <div className="container relative z-20 px-4">
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           animate={isInView ? { opacity: 1, y: 0 } : {}}
+//           transition={{ duration: 0.8 }}
+//           className="text-center mb-20"
+//         >
         
 
-          <span
-            className="
-                text-primary uppercase font-semibold block
-                tracking-[0.2em]
+//           <span
+//             className="
+//                 text-primary uppercase font-semibold block
+//                 tracking-[0.2em]
 
-                /* Responsive text size */
-                text-xs
-                sm:text-sm
-                md:text-base
-                lg:text-lg
-                xl:text-xl
+//                 /* Responsive text size */
+//                 text-xs
+//                 sm:text-sm
+//                 md:text-base
+//                 lg:text-lg
+//                 xl:text-xl
 
-                /* Spacing & style */
-                px-4 py-2
-                rounded-full
-                backdrop-blur-sm bg-black/30
-                text-orange-300
-                drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
-                text-glow
-              "
-          >
-            The White Up
-          </span>
-
-
-
-          <h2 className="font-display text-5xl md:text-7xl mb-6">
-            <span className="text-foreground  bg-black/20 backdrop-blur-sm" >Vitamins &</span>
-            <br />
-            <span
-              className="gradient-text   bg-black/20 backdrop-blur-sm"
-              style={{
-                WebkitTextStroke: "1px rgba(255,255,255,0.4)",
-              }}
-            >
-              Minerals
-            </span>
+//                 /* Spacing & style */
+//                 px-4 py-2
+//                 rounded-full
+//                 backdrop-blur-sm bg-black/30
+//                 text-orange-300
+//                 drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
+//                 text-glow
+//               "
+//           >
+//             The White Up
+//           </span>
 
 
-          </h2>
-          <p
-            // className="text-muted-foreground text-lg max-w-2xl mx-auto"
-            className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm"
-          >
-            Every sip is a symphony of carefully curated ingredients,
-            crafted with precision and passion.
-          </p>
-        </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 bg-black/10 backdrop-blur-sm">
-          {minerals.map((item, index) => (
-            <motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 * index }}
-              className="glass rounded-2xl p-8 text-center group hover:bg-card/80 transition-all duration-500"
-            >
-              <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                {item.icon}
-              </div>
-              <h3 className="font-display text-xl text-foreground mb-3">
-                {item.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed text-white text-sm md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl">
-                {item.description}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+//           <h2 className="font-display text-5xl md:text-7xl mb-6">
+//             <span className="text-foreground  bg-black/20 backdrop-blur-sm" >Vitamins &</span>
+//             <br />
+//             <span
+//               className="gradient-text   bg-black/20 backdrop-blur-sm"
+//               style={{
+//                 WebkitTextStroke: "1px rgba(255,255,255,0.4)",
+//               }}
+//             >
+//               Minerals
+//             </span>
+
+
+//           </h2>
+//           <p
+//             // className="text-muted-foreground text-lg max-w-2xl mx-auto"
+//             className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm"
+//           >
+//             Every sip is a symphony of carefully curated ingredients,
+//             crafted with precision and passion.
+//           </p>
+//         </motion.div>
+
+//         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 bg-black/10 backdrop-blur-sm">
+//           {minerals.map((item, index) => (
+//             <motion.div
+//               key={item.title}
+//               initial={{ opacity: 0, y: 40 }}
+//               animate={isInView ? { opacity: 1, y: 0 } : {}}
+//               transition={{ duration: 0.6, delay: 0.1 * index }}
+//               className="glass rounded-2xl p-8 text-center group hover:bg-card/80 transition-all duration-500"
+//             >
+//               <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+//                 {item.icon}
+//               </div>
+//               <h3 className="font-display text-xl text-foreground mb-3">
+//                 {item.title}
+//               </h3>
+//               <p className="text-muted-foreground text-sm leading-relaxed text-white text-sm md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl">
+//                 {item.description}
+//               </p>
+//             </motion.div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* Decorative elements */}
+//       <div className="absolute left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-neon-cyan/10 rounded-full blur-3xl" />
+//       <div className="absolute right-10 top-1/3 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
+      
+//     </section>
+//   );
+// };
+
+
+
+//---------------------------------------------------------------------------------------------------
+
+
+// import { useEffect, useRef } from "react";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// const minerals = [
+//   { title: "Vitamin B12", icon: "💎" },
+//   { title: "Calcium (Ca)", icon: "🦴" },
+//   { title: "Magnesium (Mg)", icon: "⚡" },
+//   { title: "Potassium (K)", icon: "❤️" },
+//   { title: "Zinc (Zn)", icon: "🛡️" },
+//   { title: "Sodium (Na)", icon: "💧" },
+// ];
+
+// export const CraftSection = () => {
+//   const sectionRef = useRef<HTMLDivElement>(null);
+//   const bubbleRefs = useRef<HTMLDivElement[]>([]);
+
+//   useEffect(() => {
+//     const LEFT_X = -360;
+//     const RIGHT_X = 360;
+
+//     // 🔒 FIXED vertical slots (NO OVERLAP EVER)
+//     const Y_SLOTS = [-220, -60, 100];
+
+//     bubbleRefs.current.forEach((bubble, i) => {
+//       const isLeft = i < 3;
+//       const slotIndex = isLeft ? i : i - 3;
+
+//       const targetX = isLeft ? LEFT_X : RIGHT_X;
+//       const targetY = Y_SLOTS[slotIndex];
+
+//       // ENTRY animation (center → slot)
+//       gsap.fromTo(
+//         bubble,
+//         {
+//           x: 0,
+//           y: 0,
+//           scale: 0,
+//           opacity: 0,
+//         },
+//         {
+//           x: targetX,
+//           y: targetY,
+//           scale: 1,
+//           opacity: 1,
+//           duration: 1.4,
+//           ease: "power3.out",
+//           delay: i * 0.12,
+//           scrollTrigger: {
+//             trigger: sectionRef.current,
+//             start: "top 70%",
+//           },
+//         }
+//       );
+
+//       // 🫧 FLOATING (SAFE — uses yPercent, not y)
+//       gsap.to(bubble, {
+//         yPercent: gsap.utils.random(-6, 6),
+//         duration: gsap.utils.random(3, 5),
+//         repeat: -1,
+//         yoyo: true,
+//         ease: "sine.inOut",
+//         delay: i * 0.4,
+//       });
+//     });
+//   }, []);
+
+//   return (
+//     <section
+//       ref={sectionRef}
+//       className="relative min-h-screen py-40 overflow-hidden flex items-center justify-center"
+//     >
+//       {/* Heading */}
+//       <div className="absolute top-24 text-center z-10">
+//         <span className="uppercase tracking-[0.3em] text-orange-300 text-sm">
+//           The White Up
+//         </span>
+//         <h2 className="font-display text-5xl md:text-7xl mt-4">
+//           <span className="text-white">Mineral</span>{" "}
+//           <span className="gradient-text">Composition</span>
+//         </h2>
+//       </div>
+
+//       {/* Bubble Stage */}
+//       <div className="relative w-full h-[700px] flex items-center justify-center">
+//         {minerals.map((m, i) => (
+//           <div
+//             key={m.title}
+//             ref={(el) => {
+//               if (el) bubbleRefs.current[i] = el;
+//             }}
+//             className="
+//               absolute
+//               w-40 h-40
+//               rounded-full
+//               flex flex-col items-center justify-center
+//               text-center
+//               bg-white/10
+//               backdrop-blur-xl
+//               border border-white/20
+//               shadow-[0_0_40px_rgba(0,255,255,0.25)]
+//               text-white
+//               pointer-events-none
+//             "
+//           >
+//             <div className="text-3xl mb-2">{m.icon}</div>
+//             <div className="font-semibold tracking-wide text-sm">
+//               {m.title}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Ambient Glows */}
+//       <div className="absolute left-1/3 top-1/2 w-[500px] h-[500px] bg-neon-cyan/10 rounded-full blur-3xl" />
+//       <div className="absolute right-1/4 top-1/3 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl" />
+//     </section>
+//   );
+// };
+
+
+// ---------------------------------------------------------------------------------------------------
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const minerals = [
+  { title: "Vitamin B12", icon: "💎" },
+  { title: "Calcium (Ca)", icon: "🦴" },
+  { title: "Magnesium (Mg)", icon: "⚡" },
+  { title: "Potassium (K)", icon: "❤️" },
+  { title: "Zinc (Zn)", icon: "🛡️" },
+  { title: "Sodium (Na)", icon: "💧" },
+];
+
+type Point = { x: number; y: number };
+
+export const CraftSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bubbleRefs = useRef<HTMLDivElement[]>([]);
+  const positions = useRef<Point[]>([]);
+
+  /* ---------------- RESPONSIVE CONFIG ---------------- */
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
+
+  const BUBBLE_SIZE = isMobile ? 110 : 160;
+  const SAFE_DISTANCE = isMobile ? 140 : 190;
+  const MAX_ATTEMPTS = 50;
+
+  const MIN_RADIUS = isMobile ? 90 : 150;
+  const MAX_RADIUS = isMobile ? 240 : 410;
+
+  const FLOAT_RANGE = isMobile ? 3 : 5;
+
+  /* ---------------- Collision Check ---------------- */
+  const overlaps = (p: Point) => {
+    return positions.current.some(
+      (q) =>
+        Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
+    );
+  };
+
+  /* ---------------- Generate Safe Random Position ---------------- */
+  const generatePosition = (isLeft: boolean): Point => {
+    let attempt = 0;
+
+    while (attempt < MAX_ATTEMPTS) {
+      const angle = gsap.utils.random(
+        isLeft ? Math.PI / 2 : -Math.PI / 2,
+        isLeft ? (3 * Math.PI) / 2 : Math.PI / 2
+      );
+
+      const radius = gsap.utils.random(MIN_RADIUS, MAX_RADIUS);
+
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius * (isMobile ? 0.5 : 0.7);
+
+      const point = { x, y };
+
+      if (!overlaps(point)) {
+        positions.current.push(point);
+        return point;
+      }
+
+      attempt++;
+    }
+
+    // fallback (never overlaps)
+    return {
+      x: isLeft ? -MIN_RADIUS : MIN_RADIUS,
+      y: 0,
+    };
+  };
+
+  /* ---------------- Animations ---------------- */
+  useEffect(() => {
+    positions.current = [];
+
+    bubbleRefs.current.forEach((bubble, i) => {
+      const isLeft = i % 2 === 0;
+      const { x, y } = generatePosition(isLeft);
+
+      // Entry animation
+      gsap.fromTo(
+        bubble,
+        {
+          x: 0,
+          y: 0,
+          scale: 0,
+          opacity: 0,
+        },
+        {
+          x,
+          y,
+          scale: 1,
+          opacity: 1,
+          duration: 1.3,
+          delay: i * 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+          },
+        }
+      );
+
+      // Floating (safe + subtle)
+      gsap.to(bubble, {
+        yPercent: gsap.utils.random(-FLOAT_RANGE, FLOAT_RANGE),
+        duration: gsap.utils.random(3.5, 5),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: i * 0.3,
+      });
+    });
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen py-32 overflow-hidden flex items-center justify-center"
+    >
+      {/* Heading */}
+      <div className="absolute top-20 text-center z-10 px-4">
+        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs sm:text-sm">
+          The White Up
+        </span>
+        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl mt-4">
+          <span className="text-white">Mineral</span>{" "}
+          <span className="gradient-text">Composition</span>
+        </h2>
       </div>
 
-      {/* Decorative elements */}
-      <div className="absolute left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-neon-cyan/10 rounded-full blur-3xl" />
-      <div className="absolute right-10 top-1/3 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
+      {/* Bubble Stage */}
+      <div className="relative w-full h-[600px] sm:h-[700px] flex items-center justify-center">
+        {minerals.map((m, i) => (
+          <div
+            key={m.title}
+            ref={(el) => {
+              if (el) bubbleRefs.current[i] = el;
+            }}
+            style={{
+              width: BUBBLE_SIZE,
+              height: BUBBLE_SIZE,
+            }}
+            className="
+              absolute
+              rounded-full
+              flex flex-col items-center justify-center
+              text-center
+              bg-white/10
+              backdrop-blur-xl
+              border border-white/20
+              shadow-[0_0_30px_rgba(0,255,255,0.25)]
+              text-white
+              pointer-events-none
+            "
+          >
+            <div className="text-2xl sm:text-3xl mb-1 sm:mb-2">
+              {m.icon}
+            </div>
+            <div className="font-semibold tracking-wide text-[11px] sm:text-sm px-2">
+              {m.title}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Ambient Glows */}
+      <div className="absolute left-1/3 top-1/2 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-3xl hidden sm:block" />
+      <div className="absolute right-1/4 top-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl hidden sm:block" />
     </section>
   );
 };
