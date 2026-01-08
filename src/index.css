@@ -220,6 +220,19 @@
     background-clip: text;
   }
 
+  .gradient-red-classic {
+   background: linear-gradient(
+    90deg,
+    #ff6a00,
+    #ff0000,
+    #c10000
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
   .gradient-text-water {
     background: var(--gradient-water);
     -webkit-background-clip: text;

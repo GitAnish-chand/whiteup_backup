@@ -66,7 +66,42 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   };
 
   const groupRef = useRef<THREE.Group>(null);
-  const { mouse } = useThree(); // 👈 mouse from -1 to +1
+  // const { mouse } = useThree(); // 👈 mouse from -1 to +1
+  const mouse = useRef({ x: 0, y: 0 });
+  const tilt = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+  const handleMouseMove = (e: MouseEvent) => {
+    mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  };
+
+  window.addEventListener("mousemove", handleMouseMove);
+  return () => window.removeEventListener("mousemove", handleMouseMove);
+}, []);
+
+
+  /* ---------------- Gyroscope control ---------------- */
+
+
+
+useEffect(() => {
+  const handleOrientation = (e: DeviceOrientationEvent) => {
+    if (e.beta == null || e.gamma == null) return;
+
+    // Clamp values
+    const x = THREE.MathUtils.clamp(e.gamma / 30, -1, 1);
+    const y = THREE.MathUtils.clamp(e.beta / 45, -1, 1);
+
+    tilt.current.x = x;
+    tilt.current.y = y;
+  };
+
+  window.addEventListener("deviceorientation", handleOrientation, true);
+  return () =>
+    window.removeEventListener("deviceorientation", handleOrientation);
+}, []);
+
 
   /* ---------------- Center Model ---------------- */
   useEffect(() => {
@@ -88,32 +123,85 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   }, [scene]);
 
   /* ---------------- Mouse-driven motion ---------------- */
+  // useFrame(() => {
+  //   if (!groupRef.current) return;
+
+  //   // 🎯 Target rotations (very small = premium)
+  //   const targetRotationX = mouse.y * 0.25; // up/down
+  //   const targetRotationY = mouse.x * 0.35; // left/right
+
+  //   groupRef.current.rotation.x = THREE.MathUtils.lerp(
+  //     groupRef.current.rotation.x,
+  //     targetRotationX,
+  //     0.08
+  //   );
+
+  //   groupRef.current.rotation.y = THREE.MathUtils.lerp(
+  //     groupRef.current.rotation.y,
+  //     targetRotationY + Math.PI / 4, // keep your base rotation
+  //     0.08
+  //   );
+
+  //   // Smooth scale (your existing logic)
+  //   groupRef.current.scale.lerp(
+  //     new THREE.Vector3(scale, scale, scale),
+  //     0.1
+  //   );
+  // });
+
   useFrame(() => {
-    if (!groupRef.current) return;
+  if (!groupRef.current) return;
 
-    // 🎯 Target rotations (very small = premium)
-    const targetRotationX = mouse.y * 0.25; // up/down
-    const targetRotationY = mouse.x * 0.35; // left/right
+  const mx = mouse.current.x;
+  const my = mouse.current.y;
 
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      targetRotationX,
-      0.08
-    );
+  /* ---------------- POSITION (cursor control) ---------------- */
+  const targetX = mx * 2.5;
+  const targetY = my * 1.6 - 0.8;
+  const targetZ = -Math.abs(mx) * 0.8;
 
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      targetRotationY + Math.PI / 4, // keep your base rotation
-      0.08
-    );
+  groupRef.current.position.x = THREE.MathUtils.lerp(
+    groupRef.current.position.x,
+    targetX,
+    0.08
+  );
 
-    // Smooth scale (your existing logic)
-    groupRef.current.scale.lerp(
-      new THREE.Vector3(scale, scale, scale),
-      0.1
-    );
-  });
+  groupRef.current.position.y = THREE.MathUtils.lerp(
+    groupRef.current.position.y,
+    targetY,
+    0.08
+  );
 
+  groupRef.current.position.z = THREE.MathUtils.lerp(
+    groupRef.current.position.z,
+    targetZ,
+    0.08
+  );
+
+  /* ---------------- ROTATION (same direction) ---------------- */
+  const rotX = my * 0.45;
+  const rotY = mx * 0.7 + Math.PI / 4;
+
+  groupRef.current.rotation.x = THREE.MathUtils.lerp(
+    groupRef.current.rotation.x,
+    rotX,
+    0.08
+  );
+
+  groupRef.current.rotation.y = THREE.MathUtils.lerp(
+    groupRef.current.rotation.y,
+    rotY,
+    0.08
+  );
+
+  /* ---------------- SCALE ---------------- */
+  groupRef.current.scale.lerp(
+    new THREE.Vector3(scale, scale, scale),
+    0.1
+  );
+});
+
+  
   return (
     <group ref={groupRef}>
       <primitive object={scene} position={[0, -0.8, 0]} />
