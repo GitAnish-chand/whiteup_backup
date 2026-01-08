@@ -22,7 +22,7 @@ const PrebookedCustomers = () => {
                 <h3 className=" uppercase tracking-widest text-xl mb-3  text-blue-500  text-glow ">
                     Trusted by Doctors
                 </h3>
-                
+
                 <h2 className="text-3xl sm:text-4xl font-display text-orange-400 text-glow-clinical ">
                     10+ Customers Have Already Pre-Booked
                 </h2>
@@ -31,12 +31,12 @@ const PrebookedCustomers = () => {
             {/* Carousel */}
             <div className="relative w-full overflow-hidden">
                 <motion.div
-                    className="flex gap-8 w-max"
+                    className="flex gap-8 w-max will-change-transform"
                     whileHover={{ animationPlayState: "paused" }}
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
                         repeat: Infinity,
-                        duration: 20,
+                        duration: 35,
                         ease: "linear",
                     }}
                 >
@@ -44,10 +44,16 @@ const PrebookedCustomers = () => {
                         <div
                             key={index}
                             className="min-w-[220px] px-6 py-4 rounded-2xl
-                         bg-white/5 backdrop-blur-md
-                         border border-white/10
-                         text-center text-white/90
-                         shadow-[0_0_20px_rgba(0,255,255,0.08)]"
+                                bg-white/5 backdrop-blur-md
+                                border border-white/10
+                                text-center text-white/90
+                                shadow-[0_0_20px_rgba(0,255,255,0.08)]
+                                text-lg
+                                leading-relaxed
+                                mb-8
+                                glass-bg
+
+                             "
                         >
                             {name}
                         </div>
