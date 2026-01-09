@@ -12,6 +12,7 @@ import { useSoundEffects } from "@/hooks/useSoundEffects";
 import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
+
 import BottleGsap from "@/components/3d/BottleGsap";
 
 // import BottleHero from "@/components/3d/BottleHero";
@@ -220,8 +221,6 @@ const Index = () => {
         {/* <BottleParallax /> */}
         <BottleGsap />
         
-
-
 
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
