@@ -239,7 +239,7 @@ export const VisionSection = () => {
                 style={{ opacity, x }}
                 className={`relative flex items-center mb-16 ${index % 2 === 0
                     ? "justify-start"
-                    : "justify-center"
+                    : "justify-end"
                   }`}
               >
                 {/* 🔹 DOT – CHECKPOINT */}
