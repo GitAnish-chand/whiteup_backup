@@ -9,14 +9,11 @@ import { VisionSection } from "@/components/sections/VisionSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
-import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
-import Bottlegsap from "@/components/3d/Bottlegsap";
+import Bottlegsap from "@/components/3d/BottleGsap";
 
-
-
-
+// import Background3D from "@/components/3d/Background3D";
 
 
 // import BottleHero from "@/components/3d/BottleHero";
