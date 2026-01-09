@@ -4,7 +4,7 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Bottlegsap = () => {
+const Bottle = () => {
     const bottleRef = useRef<HTMLImageElement>(null);
 
     useLayoutEffect(() => {
@@ -102,4 +102,4 @@ const Bottlegsap = () => {
     );
 };
 
-export default Bottlegsap;
+export default Bottle;

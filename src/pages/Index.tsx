@@ -11,7 +11,8 @@ import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useSoundEffects } from "@/hooks/useSoundEffects";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
-import Bottlegsap from "@/components/3d/BottleGsap";
+import Bottle from "@/components/3d/Bottle";
+
 
 // import Background3D from "@/components/3d/Background3D";
 
@@ -220,7 +221,7 @@ const Index = () => {
         {/* Bottle (Mobile image / Desktop 3D) */}
         {/* <BottleHero scale={bottleScale} enabled={showBottle} /> */}
         {/* <BottleParallax /> */}
-        <Bottlegsap />  
+        <Bottle />
 
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
