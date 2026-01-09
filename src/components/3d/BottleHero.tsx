@@ -22,12 +22,10 @@ const BottleHero: FC<BottleHeroProps> = ({ scale, enabled }) => {
     return (
       <div
         className="
-          fixed inset-0 -z-10
-          flex items-center justify-center
-          pointer-events-none
+          fixed inset-0 -z-10 bg-background flex items-center justify-center
         "
       >
-        <img
+        {/* <img
           src="/images/bottle.webp"
           alt="WhiteUp Bottle"
           className="
@@ -38,7 +36,19 @@ const BottleHero: FC<BottleHeroProps> = ({ scale, enabled }) => {
             drop-shadow-[0_30px_60px_rgba(0,0,0,0.35)]
             animate-fade-up
           "
+        /> */}
+        <img
+          src="/images/bottle.webp"
+          alt="Bottle"
+          className="w-[300px] border-4 border-yellow-400"
+          style={{
+            backgroundColor: "#111827",
+            opacity: 1,
+            filter: "contrast(1.2) brightness(1.2)",
+          }}
         />
+
+
       </div>
     );
   }

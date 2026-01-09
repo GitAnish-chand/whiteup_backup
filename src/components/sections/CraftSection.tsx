@@ -407,6 +407,7 @@ export const CraftSection = () => {
     <section
       ref={sectionRef}
       className="relative min-h-screen py-32 overflow-hidden flex items-center justify-center"
+      id = "craft"
     >
       {/* Heading */}
       <div className="absolute top-20 text-center z-10 px-4">

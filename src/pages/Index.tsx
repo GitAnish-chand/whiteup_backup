@@ -14,6 +14,8 @@ import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
 
 import BottleHero from "@/components/3d/BottleHero";
+import BottleParallax from "@/components/3d/BottleParallax";
+import BottleGSAP from "@/components/3d/BottleGsap";
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
@@ -161,13 +163,13 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.1 }}
             className="fixed inset-0 z-50 bg-background flex items-center justify-center"
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.1 }}
               className="text-center"
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary to-soda-orange animate-pulse" />
@@ -210,9 +212,13 @@ const Index = () => {
       <div className="relative z-20">
         {/* 3D Bottle with fade */}
         {/* <Background3D scale={bottleScale} enabled={showBottle} /> */}
-        
+
         {/* Bottle (Mobile image / Desktop 3D) */}
-        <BottleHero scale={bottleScale} enabled={showBottle} />
+        {/* <BottleHero scale={bottleScale} enabled={showBottle} /> */}
+        {/* <BottleParallax /> */}
+        <BottleGSAP />
+        
+
 
 
         <HeroSection setRotationY={setRotationY} />

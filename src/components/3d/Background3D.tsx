@@ -127,7 +127,7 @@
 // //   }, [scene]);
 
 // //   /* ---------------- Mouse-driven motion ---------------- */
-  
+
 
 // //   // useFrame(() => {
 // //   //   if (!groupRef.current) return;
@@ -249,11 +249,11 @@
 // //         frameloop="always"
 // //         camera={{ position: [0, 0, 6], fov: 30 }}
 // //       >
-      
+
 // //         <ambientLight intensity={0.6} />
 // //         <hemisphereLight intensity={0.4} />
 // //         <directionalLight position={[3, 3, 3]} intensity={0.8} />
-        
+
 
 // //         <Environment preset="warehouse" />
 // //         <Suspense fallback={null}>
@@ -566,10 +566,21 @@ const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
         pointerEvents: "none",
       }}
     >
-      <Canvas
+      {/* <Canvas
         dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5)}
         camera={{ position: [0, 0, 6], fov: 30 }}
-      >
+      > */}
+
+        <Canvas
+          dpr={2}
+          camera={{ position: [0, 0, 6], fov: 30 }}
+          gl={{ alpha: false }}
+          onCreated={({ gl }) => {
+            gl.setClearColor("#0b0f14", 1); // dark premium background
+          }}
+        >
+
+
         {/* LIGHTS (CHEAP) */}
         <ambientLight intensity={0.6} />
         <hemisphereLight intensity={0.4} />
