@@ -12,8 +12,9 @@ import { useSoundEffects } from "@/hooks/useSoundEffects";
 import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
-
 import BottleGsap from "@/components/3d/BottleGsap";
+
+
 
 // import BottleHero from "@/components/3d/BottleHero";
 // import BottleParallax from "@/components/3d/BottleParallax";
@@ -219,12 +220,11 @@ const Index = () => {
         {/* Bottle (Mobile image / Desktop 3D) */}
         {/* <BottleHero scale={bottleScale} enabled={showBottle} /> */}
         {/* <BottleParallax /> */}
-        <BottleGsap />
-        
+        <BottleGsap />        
 
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
-        <StorySection /> {/* MUST have id="story" */}
+        <StorySection /> 
         <PrebookedCustomers />
         <VisionSection />
         <ProductsSection />
