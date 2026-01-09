@@ -1,8 +1,5 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Background3D from "./Background3D";
-
-const isMobile =
-  typeof window !== "undefined" && window.innerWidth < 768;
 
 interface BottleHeroProps {
   scale: number;
@@ -10,7 +7,17 @@ interface BottleHeroProps {
 }
 
 const BottleHero: FC<BottleHeroProps> = ({ scale, enabled }) => {
-  // 📱 MOBILE → IMAGE
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // 📱 MOBILE → STATIC IMAGE
   if (isMobile) {
     return (
       <div

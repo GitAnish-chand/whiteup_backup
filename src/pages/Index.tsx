@@ -13,6 +13,8 @@ import Background3D from "@/components/3d/Background3D";
 import { ProductsSection } from "@/components/sections/ProductsSection";
 import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
 
+import BottleHero from "@/components/3d/BottleHero";
+
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
 
@@ -43,9 +45,9 @@ const Index = () => {
       }
 
       // When story is visible again → show bottle
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      setShowBottle(true);
-    }
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setShowBottle(true);
+      }
     };
 
     window.addEventListener("scroll", onScroll);
@@ -103,41 +105,41 @@ const Index = () => {
   //   lastScrollRef.current = scrollProgress;
   // }, [scrollProgress, soundEnabled, playBubbleSound]);
 
-useEffect(() => {
-  if (!soundEnabled) return;
+  useEffect(() => {
+    if (!soundEnabled) return;
 
-  const delta = scrollProgress - lastScrollRef.current;
-  const absDelta = Math.abs(delta);
-  const now = performance.now();
+    const delta = scrollProgress - lastScrollRef.current;
+    const absDelta = Math.abs(delta);
+    const now = performance.now();
 
-  // Only downward scroll
-  if (delta <= 0) {
-    lastScrollRef.current = scrollProgress;
-    return;
-  }
+    // Only downward scroll
+    if (delta <= 0) {
+      lastScrollRef.current = scrollProgress;
+      return;
+    }
 
-  // Ignore tiny movement
-  if (absDelta < 0.01) {
-    lastScrollRef.current = scrollProgress;
-    return;
-  }
+    // Ignore tiny movement
+    if (absDelta < 0.01) {
+      lastScrollRef.current = scrollProgress;
+      return;
+    }
 
-  // Cooldown (natural bubbling)
-  if (!lastScrollRef.current || now - lastScrollRef.current < 120) {
-    lastScrollRef.current = scrollProgress;
-    return;
-  }
+    // Cooldown (natural bubbling)
+    if (!lastScrollRef.current || now - lastScrollRef.current < 120) {
+      lastScrollRef.current = scrollProgress;
+      return;
+    }
 
-  // Active bubbling zone
-  if (scrollProgress > 0.02 && scrollProgress < 0.5) {
-    playBubbleSound();
-    lastScrollRef.current = now;
-  }
-}, [scrollProgress, soundEnabled, playBubbleSound]);
+    // Active bubbling zone
+    if (scrollProgress > 0.02 && scrollProgress < 0.5) {
+      playBubbleSound();
+      lastScrollRef.current = now;
+    }
+  }, [scrollProgress, soundEnabled, playBubbleSound]);
 
 
 
-  
+
   /* ---------------------------------------------
      Loader
   --------------------------------------------- */
@@ -207,7 +209,11 @@ useEffect(() => {
       {/* Content */}
       <div className="relative z-20">
         {/* 3D Bottle with fade */}
-        <Background3D scale={bottleScale} enabled={showBottle} />
+        {/* <Background3D scale={bottleScale} enabled={showBottle} /> */}
+        
+        {/* Bottle (Mobile image / Desktop 3D) */}
+        <BottleHero scale={bottleScale} enabled={showBottle} />
+
 
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
