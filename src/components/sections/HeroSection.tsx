@@ -36,7 +36,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
   }, [rotateY, setRotationY]);
 
   return (
-    <section ref={sectionRef} className="section-container relative min-h-screen" id="hero">
+    <section ref={sectionRef} className="section-container relative min-h-screen " id="hero">
       {/* Background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 rounded-full blur-3xl animate-pulse-glow" />
