@@ -118,6 +118,8 @@
 
 // --------- -------------------------------------------------------------
 
+
+
 import {
   motion,
   useScroll,
@@ -209,7 +211,9 @@ export const VisionSection = () => {
           {visionItems.map((item, index) => {
             /* Scroll windows per item */
             const start = index / visionItems.length;
-            const end = start + 0.25;
+            const end = start + 0.1;
+
+            
 
             const opacity = useTransform(
               scrollYProgress,
@@ -233,11 +237,10 @@ export const VisionSection = () => {
               <motion.div
                 key={item.year}
                 style={{ opacity, x }}
-                className={`relative flex items-center mb-16 ${
-                  index % 2 === 0
+                className={`relative flex items-center mb-16 ${index % 2 === 0
                     ? "justify-start"
                     : "justify-end"
-                }`}
+                  }`}
               >
                 {/* 🔹 DOT – CHECKPOINT */}
                 <motion.div
@@ -246,11 +249,10 @@ export const VisionSection = () => {
                 />
 
                 <div
-                  className={`w-5/12 ${
-                    index % 2 === 0
+                  className={`w-5/12 ${index % 2 === 0
                       ? "pr-12 text-right"
                       : "pl-12 text-left"
-                  }`}
+                    }`}
                 >
                   {/* 🔹 YEAR EMPHASIS */}
                   <motion.span
