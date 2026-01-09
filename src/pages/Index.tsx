@@ -15,7 +15,9 @@ import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
 
 import BottleHero from "@/components/3d/BottleHero";
 import BottleParallax from "@/components/3d/BottleParallax";
-import BottleGSAP from "@/components/3d/BottleGsap";
+import BottleGsap from "@/components/3d/BottleGsap";
+
+
 
 const Index = () => {
   const { scrollProgress } = useScrollProgress();
@@ -216,7 +218,7 @@ const Index = () => {
         {/* Bottle (Mobile image / Desktop 3D) */}
         {/* <BottleHero scale={bottleScale} enabled={showBottle} /> */}
         {/* <BottleParallax /> */}
-        <BottleGSAP />
+        <BottleGsap />
         
 
 
