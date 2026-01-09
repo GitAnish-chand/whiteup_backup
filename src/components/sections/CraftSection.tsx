@@ -273,11 +273,8 @@
 
 // ---------------------------------------------------------------------------------------------------
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const minerals = [
   { title: "Vitamin B12", icon: "💎" },
@@ -298,52 +295,33 @@ export const CraftSection = () => {
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
 
-  /* ---------------- CONFIG ---------------- */
-  const BUBBLE_SIZE = isMobile ? 100 : 160;
-  const SAFE_DISTANCE = isMobile ? 130 : 190;
-  const MAX_ATTEMPTS = 80;
+  /* ---------------- FIXED SIZES ---------------- */
+  const BUBBLE_SIZE = isMobile ? 90 : 150;
+  const HALF = BUBBLE_SIZE / 2;
+  const SAFE_DISTANCE = BUBBLE_SIZE + (isMobile ? 20 : 30);
 
-  const DESKTOP_RADIUS = { min: 150, max: 410 };
-  const MOBILE_RADIUS = { min: 80, max: 180 };
+  /* ---------------- STAGE ---------------- */
+  const STAGE_WIDTH = isMobile ? window.innerWidth : 900;
+  const STAGE_HEIGHT = isMobile ? 420 : 520;
 
-  const FLOAT_RANGE = isMobile ? 2 : 5;
+  const MIN_X = -STAGE_WIDTH / 2 + HALF;
+  const MAX_X = STAGE_WIDTH / 2 - HALF;
+  const MIN_Y = -STAGE_HEIGHT / 2 + HALF;
+  const MAX_Y = STAGE_HEIGHT / 2 - HALF;
 
-  /* ---------------- SCREEN BOUNDS ---------------- */
-  const STAGE_WIDTH = isMobile
-    ? window.innerWidth
-    : 900;
-
-  const STAGE_HEIGHT = isMobile
-    ? 420
-    : 520;
-
-  const HALF_W = STAGE_WIDTH / 2 - BUBBLE_SIZE / 2;
-  const HALF_H = STAGE_HEIGHT / 2 - BUBBLE_SIZE / 2;
-
-  /* ---------------- Collision Check ---------------- */
-  const overlaps = (p: Point) => {
-    return positions.current.some(
-      (q) => Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
+  /* ---------------- OVERLAP CHECK ---------------- */
+  const overlaps = (p: Point) =>
+    positions.current.some(
+      q => Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
     );
-  };
 
-  /* ---------------- Generate Position ---------------- */
-  const generatePosition = (index: number): Point => {
-    let attempt = 0;
+  /* ---------------- SAFE POSITION GENERATOR ---------------- */
+  const generatePosition = (): Point => {
+    let tries = 0;
 
-    while (attempt < MAX_ATTEMPTS) {
-      const angle = gsap.utils.random(0, Math.PI * 2);
-      const radius = gsap.utils.random(
-        isMobile ? MOBILE_RADIUS.min : DESKTOP_RADIUS.min,
-        isMobile ? MOBILE_RADIUS.max : DESKTOP_RADIUS.max
-      );
-
-      let x = Math.cos(angle) * radius;
-      let y = Math.sin(angle) * radius * (isMobile ? 0.6 : 0.7);
-
-      // 🔒 Clamp to screen bounds (CRITICAL FIX)
-      x = gsap.utils.clamp(-HALF_W, HALF_W, x);
-      y = gsap.utils.clamp(-HALF_H, HALF_H, y);
+    while (tries < 120) {
+      const x = gsap.utils.random(MIN_X, MAX_X);
+      const y = gsap.utils.random(MIN_Y, MAX_Y);
 
       const point = { x, y };
 
@@ -352,53 +330,50 @@ export const CraftSection = () => {
         return point;
       }
 
-      attempt++;
+      tries++;
     }
 
-    // Fallback: vertical stacking (never overlaps, never overflows)
+    // Guaranteed fallback (never overlaps, always visible)
+    const index = positions.current.length;
     return {
       x: 0,
-      y: -HALF_H + index * SAFE_DISTANCE,
+      y: MIN_Y + index * SAFE_DISTANCE,
     };
   };
 
-  /* ---------------- Animations ---------------- */
-  useEffect(() => {
+  /* ---------------- ANIMATION ---------------- */
+  useLayoutEffect(() => {
     positions.current = [];
 
     bubbleRefs.current.forEach((bubble, i) => {
-      const { x, y } = generatePosition(i);
+      const { x, y } = generatePosition();
 
-      gsap.fromTo(
-        bubble,
-        {
-          x: 0,
-          y: 0,
-          scale: 0,
-          opacity: 0,
-        },
-        {
-          x,
-          y,
-          scale: 1,
-          opacity: 1,
-          duration: 1.2,
-          delay: i * 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-        }
-      );
+      /* Initial state */
+      gsap.set(bubble, {
+        x,
+        y,
+        scale: 0.85,
+        opacity: 0,
+        force3D: true,
+        willChange: "transform",
+      });
 
+      /* Entrance */
       gsap.to(bubble, {
-        yPercent: gsap.utils.random(-FLOAT_RANGE, FLOAT_RANGE),
-        duration: gsap.utils.random(3.5, 5),
+        scale: 1,
+        opacity: 1,
+        duration: 1.8,
+        delay: i * 0.08,
+        ease: "power3.out",
+      });
+
+      /* Smooth bounded float (ABSOLUTE) */
+      gsap.to(bubble, {
+        y: y + gsap.utils.random(-10, 10),
+        duration: gsap.utils.random(4, 6),
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: i * 0.25,
       });
     });
   }, []);
@@ -406,18 +381,15 @@ export const CraftSection = () => {
   return (
     <section
       ref={sectionRef}
+      id="craft"
       className="relative min-h-screen py-32 overflow-hidden flex items-center justify-center"
-      id = "craft"
     >
       {/* Heading */}
       <div className="absolute top-20 text-center z-10 px-4">
-        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs sm:text-sm backdrop-blur-sm bg-black/30
-                text-orange-300
-                drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
-                ">
+        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs backdrop-blur-sm bg-black/30 px-4 py-1 rounded-full">
           The White Up
         </span>
-        <h2 className="font-display text-4xl sm:text-5xl md:text-7xl mt-4">
+        <h2 className="font-display text-4xl sm:text-6xl mt-4">
           <span className="text-white">Mineral</span>{" "}
           <span className="gradient-text">Composition</span>
         </h2>
@@ -427,16 +399,14 @@ export const CraftSection = () => {
       <div
         className="relative flex items-center justify-center"
         style={{
-          width: isMobile ? "100%" : 900,
-          height: isMobile ? 420 : 520,
+          width: STAGE_WIDTH,
+          height: STAGE_HEIGHT,
         }}
       >
         {minerals.map((m, i) => (
           <div
             key={m.title}
-            ref={(el) => {
-              if (el) bubbleRefs.current[i] = el;
-            }}
+            ref={el => el && (bubbleRefs.current[i] = el)}
             style={{
               width: BUBBLE_SIZE,
               height: BUBBLE_SIZE,
@@ -464,7 +434,7 @@ export const CraftSection = () => {
         ))}
       </div>
 
-      {/* Ambient Glows (desktop only) */}
+      {/* Ambient Glows */}
       <div className="absolute left-1/3 top-1/2 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-3xl hidden sm:block" />
       <div className="absolute right-1/4 top-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl hidden sm:block" />
     </section>
