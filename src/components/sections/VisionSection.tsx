@@ -119,10 +119,171 @@
 // --------- -------------------------------------------------------------
 
 
+// import { motion, useScroll, useTransform } from "framer-motion";
+// import { useRef } from "react";
+
+// const visionItems = [
+//   {
+//     year: "2026",
+//     title: "Mineral water",
+//     description:
+//       "Recommended daily intake of mineral water for a healthy lifestyle."
+//   },
+//   {
+//     year: "2028",
+//     title: "Global Expansion",
+//     description:
+//       "Bringing refreshment innovation to 50 new markets worldwide."
+//   },
+//   {
+//     year: "2030",
+//     title: "Zero Waste",
+//     description:
+//       "100% recyclable packaging and zero waste production facilities."
+//   }
+// ];
+
+// export const VisionSection = () => {
+//   const ref = useRef<HTMLDivElement>(null);
+
+//   /* ✅ Universal safe scroll hook */
+//   const { scrollYProgress } = useScroll({
+//     target: ref
+//   });
+
+//   /* Timeline line animation */
+//   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+//   const lineOpacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+
+//   return (
+//     <section ref={ref} className="relative py-32 overflow-hidden">
+//       {/* Top divider */}
+//       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent" />
+
+//       {/* Background glow */}
+//       <div className="absolute inset-0">
+//         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent animate-pulse-glow" />
+//       </div>
+
+//       <div className="relative z-10 max-w-6xl mx-auto px-4">
+//         {/* 🔥 HEADER — RESTORED EXACT STYLE */}
+//         <motion.div
+//           initial={{ opacity: 0, y: 30 }}
+//           whileInView={{ opacity: 1, y: 0 }}
+//           viewport={{ once: true }}
+//           transition={{ duration: 1.1 }}
+//           className="text-center mb-24"
+//         >
+//           <span className="text-primary uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
+//             Our Vision
+//           </span>
+
+//           <h2 className="font-display text-5xl md:text-7xl mb-6 flex flex-col">
+//             <span className="bg-black/20 backdrop-blur-sm text-glow">
+//               HYDRATING
+//             </span>
+//             <span className="gradient-text bg-black/20 backdrop-blur-sm">
+//               THE FUTURE
+//             </span>
+//           </h2>
+
+//           <p className="text-white text-lg md:text-xl max-w-2xl mx-auto px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
+//             We're not just selling water – we're pioneering a sustainable future
+//             for the industry and the planet.
+//           </p>
+//         </motion.div>
+
+//         {/* Timeline */}
+//         <div className="relative max-w-4xl mx-auto">
+//           {/* 🔥 GRADIENT CENTER LINE (RESTORED) */}
+//           <motion.div
+//             style={{
+//               scaleY: lineScale,
+//               opacity: lineOpacity,
+//               transformOrigin: "top"
+//             }}
+//             className="absolute left-1/2 top-0 bottom-0 w-px
+//               bg-gradient-to-b
+//               from-primary
+//               via-neon-cyan
+//               to-primary"
+//           />
+
+//           {visionItems.map((item, index) => {
+//             const start = index * 0.25;
+//             const end = start + 0.3;
+
+//             const opacity = useTransform(
+//               scrollYProgress,
+//               [start, end],
+//               [0, 1]
+//             );
+
+//             const y = useTransform(
+//               scrollYProgress,
+//               [start, end],
+//               [40, 0]
+//             );
+
+//             return (
+//               <motion.div
+//                 key={item.year}
+//                 style={{ opacity, y }}
+//                 className={`relative flex mb-24 ${
+//                   index % 2 === 0
+//                     ? "justify-center md:justify-start"
+//                     : "justify-center md:justify-end"
+//                 }`}
+//               >
+//                 {/* 🔥 GLOWING GRADIENT DOT (RESTORED) */}
+//                 <div
+//                   className="
+//                     absolute left-1/2 -translate-x-1/2
+//                     w-4 h-4 rounded-full
+//                     bg-gradient-to-r from-primary via-neon-cyan to-primary
+//                     shadow-[0_0_12px_rgba(34,211,238,0.8)]
+//                     z-10
+//                   "
+//                 />
+
+//                 {/* Content */}
+//                 <div
+//                   className={`w-full md:w-5/12 px-6 ${
+//                     index % 2 === 0
+//                       ? "text-center md:text-right md:pr-12"
+//                       : "text-center md:text-left md:pl-12"
+//                   }`}
+//                 >
+//                   <span className="font-display text-4xl text-primary inline-block mt-5">
+//                     {item.year}
+//                   </span>
+
+//                   <h3 className="font-display text-2xl text-foreground mt-2">
+//                     {item.title}
+//                   </h3>
+
+//                   <p className="text-muted-foreground mt-3 leading-relaxed">
+//                     {item.description}
+//                   </p>
+//                 </div>
+//               </motion.div>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+
+
+
+// ----------------------------------------------------------------------------------------------------
+
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-/* 🔤 Typing Text Component */
+/* 🔤 Viewport-based typing paragraph (reliable & smooth) */
 const TypingParagraph = ({ text }: { text: string }) => {
   const words = text.split(" ");
 
@@ -145,7 +306,7 @@ const TypingParagraph = ({ text }: { text: string }) => {
           key={index}
           className="inline-block mr-1"
           variants={{
-            hidden: { opacity: 0, x: -10 },
+            hidden: { opacity: 0, x: -12 },
             visible: {
               opacity: 1,
               x: 0,
@@ -187,18 +348,17 @@ const visionItems = [
 export const VisionSection = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  /* ✅ Universal safe scroll hook */
+  /* Timeline scroll (unchanged & safe) */
   const { scrollYProgress } = useScroll({
     target: ref
   });
 
-  /* Timeline line animation */
   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const lineOpacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
 
   return (
     <section ref={ref} className="relative py-32 overflow-hidden">
-      {/* Top divider */}
+      {/* Divider */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent" />
 
       {/* Background glow */}
@@ -228,15 +388,14 @@ export const VisionSection = () => {
             </span>
           </h2>
 
-          {/* 🔥 TYPING PARAGRAPH */}
+          {/* ✅ Typing starts when section appears */}
           <TypingParagraph
             text="We're not just selling water – we're pioneering a sustainable future for the industry and the planet."
           />
         </motion.div>
 
-        {/* Timeline */}
+        {/* TIMELINE */}
         <div className="relative max-w-4xl mx-auto">
-          {/* Gradient center line */}
           <motion.div
             style={{
               scaleY: lineScale,
@@ -250,17 +409,8 @@ export const VisionSection = () => {
             const start = index * 0.25;
             const end = start + 0.3;
 
-            const opacity = useTransform(
-              scrollYProgress,
-              [start, end],
-              [0, 1]
-            );
-
-            const y = useTransform(
-              scrollYProgress,
-              [start, end],
-              [40, 0]
-            );
+            const opacity = useTransform(scrollYProgress, [start, end], [0, 1]);
+            const y = useTransform(scrollYProgress, [start, end], [40, 0]);
 
             return (
               <motion.div
@@ -272,7 +422,6 @@ export const VisionSection = () => {
                     : "justify-center md:justify-end"
                 }`}
               >
-                {/* Glowing dot */}
                 <div
                   className="
                     absolute left-1/2 -translate-x-1/2
@@ -283,7 +432,6 @@ export const VisionSection = () => {
                   "
                 />
 
-                {/* Content */}
                 <div
                   className={`w-full md:w-5/12 px-6 ${
                     index % 2 === 0
