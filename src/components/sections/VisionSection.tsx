@@ -119,69 +119,106 @@
 // --------- -------------------------------------------------------------
 
 
-
-import {
-  motion,
-  useScroll,
-  useTransform
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+
+/* 🔤 Typing Text Component */
+const TypingParagraph = ({ text }: { text: string }) => {
+  const words = text.split(" ");
+
+  return (
+    <motion.p
+      className="text-white text-lg md:text-xl max-w-2xl mx-auto px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={{
+        visible: {
+          transition: {
+            staggerChildren: 0.06
+          }
+        }
+      }}
+    >
+      {words.map((word, index) => (
+        <motion.span
+          key={index}
+          className="inline-block mr-1"
+          variants={{
+            hidden: { opacity: 0, x: -10 },
+            visible: {
+              opacity: 1,
+              x: 0,
+              transition: {
+                duration: 0.35,
+                ease: "easeOut"
+              }
+            }
+          }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.p>
+  );
+};
 
 const visionItems = [
   {
     year: "2026",
     title: "Mineral water",
-    description: "Recommended daily intake of mineral water for a healthy lifestyle."
+    description:
+      "Recommended daily intake of mineral water for a healthy lifestyle."
   },
   {
     year: "2028",
     title: "Global Expansion",
-    description: "Bringing refreshment innovation to 50 new markets worldwide."
+    description:
+      "Bringing refreshment innovation to 50 new markets worldwide."
   },
   {
     year: "2030",
     title: "Zero Waste",
-    description: "100% recyclable packaging and zero waste production facilities."
+    description:
+      "100% recyclable packaging and zero waste production facilities."
   }
 ];
 
 export const VisionSection = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  /* 🔑 Scroll progress bound to this section */
+  /* ✅ Universal safe scroll hook */
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start center", "end center"]
+    target: ref
   });
 
-  /* 🔹 Timeline line draw */
+  /* Timeline line animation */
   const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const lineOpacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
 
   return (
-    <section
-      ref={ref}
-      className="section-container relative py-32 overflow-hidden"
-    >
+    <section ref={ref} className="relative py-32 overflow-hidden">
+      {/* Top divider */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-cyan/50 to-transparent" />
 
-      {/* Background (UNCHANGED) */}
+      {/* Background glow */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent animate-pulse-glow" />
       </div>
 
-      <div className="container relative z-20 px-4">
-        {/* Header (UNCHANGED) */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4">
+        {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.1 }}
-          className="text-center mb-20"
+          className="text-center mb-24"
         >
           <span className="text-primary uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
             Our Vision
           </span>
+
           <h2 className="font-display text-5xl md:text-7xl mb-6 flex flex-col">
             <span className="bg-black/20 backdrop-blur-sm text-glow">
               HYDRATING
@@ -190,15 +227,16 @@ export const VisionSection = () => {
               THE FUTURE
             </span>
           </h2>
-          <p className="text-white text-lg md:text-xl max-w-2xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
-            We're not just selling water – we're pioneering a sustainable future
-            for the industry and the planet.
-          </p>
+
+          {/* 🔥 TYPING PARAGRAPH */}
+          <TypingParagraph
+            text="We're not just selling water – we're pioneering a sustainable future for the industry and the planet."
+          />
         </motion.div>
 
         {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
-          {/* 🔥 CENTER LINE – DRAWS WITH SCROLL */}
+          {/* Gradient center line */}
           <motion.div
             style={{
               scaleY: lineScale,
@@ -209,11 +247,8 @@ export const VisionSection = () => {
           />
 
           {visionItems.map((item, index) => {
-            /* Scroll windows per item */
-            const start = index / visionItems.length;
-            const end = start + 0.1;
-
-            
+            const start = index * 0.25;
+            const end = start + 0.3;
 
             const opacity = useTransform(
               scrollYProgress,
@@ -221,51 +256,50 @@ export const VisionSection = () => {
               [0, 1]
             );
 
-            const x = useTransform(
+            const y = useTransform(
               scrollYProgress,
               [start, end],
-              [index % 2 === 0 ? -120 : 120, 0]
-            );
-
-            const scale = useTransform(
-              scrollYProgress,
-              [start, end],
-              [0.95, 1]
+              [40, 0]
             );
 
             return (
               <motion.div
                 key={item.year}
-                style={{ opacity, x }}
-                className={`relative flex items-center mb-16 ${index % 2 === 0
-                    ? "justify-start"
-                    : "justify-end"
-                  }`}
+                style={{ opacity, y }}
+                className={`relative flex mb-24 ${
+                  index % 2 === 0
+                    ? "justify-center md:justify-start"
+                    : "justify-center md:justify-end"
+                }`}
               >
-                {/* 🔹 DOT – CHECKPOINT */}
-                <motion.div
-                  style={{ opacity, scale }}
-                  className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-neon-cyan shadow-glow-neon z-10"
+                {/* Glowing dot */}
+                <div
+                  className="
+                    absolute left-1/2 -translate-x-1/2
+                    w-4 h-4 rounded-full
+                    bg-gradient-to-r from-primary via-neon-cyan to-primary
+                    shadow-[0_0_12px_rgba(34,211,238,0.8)]
+                    z-10
+                  "
                 />
 
+                {/* Content */}
                 <div
-                  className={`w-5/12 ${index % 2 === 0
-                      ? "pr-12 text-right"
-                      : "pl-12 text-left"
-                    }`}
+                  className={`w-full md:w-5/12 px-6 ${
+                    index % 2 === 0
+                      ? "text-center md:text-right md:pr-12"
+                      : "text-center md:text-left md:pl-12"
+                  }`}
                 >
-                  {/* 🔹 YEAR EMPHASIS */}
-                  <motion.span
-                    style={{ scale }}
-                    className="font-display text-4xl text-primary inline-block"
-                  >
+                  <span className="font-display text-4xl text-primary inline-block mt-5">
                     {item.year}
-                  </motion.span>
+                  </span>
 
                   <h3 className="font-display text-2xl text-foreground mt-2">
                     {item.title}
                   </h3>
-                  <p className="text-muted-foreground mt-2">
+
+                  <p className="text-muted-foreground mt-3 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
@@ -273,33 +307,6 @@ export const VisionSection = () => {
             );
           })}
         </div>
-
-        {/* Impact stats (UNCHANGED) */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-24"
-        >
-          {[
-            { value: "Natural", label: "Mineral Source", color: "from-emerald-400 to-teal-300" },
-            { value: "Pure", label: "Carefully Filtered", color: "from-cyan-400 to-sky-300" },
-            { value: "Balanced", label: "Taste Profile", color: "from-indigo-400 to-purple-400" },
-            { value: "Safe", label: "Quality Checked", color: "from-orange-400 to-amber-300" }
-          ].map(stat => (
-            <div key={stat.label} className="text-center">
-              <span
-                className={`font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
-              >
-                {stat.value}
-              </span>
-              <p className="text-muted-foreground text-sm sm:text-base mt-3">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );
