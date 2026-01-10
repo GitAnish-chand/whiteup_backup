@@ -272,9 +272,11 @@
 
 
 // ---------------------------------------------------------------------------------------------------
-
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const minerals = [
   { title: "Vitamin B12", icon: "💎" },
@@ -290,7 +292,6 @@ type Point = { x: number; y: number };
 export const CraftSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const bubbleRefs = useRef<HTMLDivElement[]>([]);
-  const positions = useRef<Point[]>([]);
 
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
@@ -298,84 +299,81 @@ export const CraftSection = () => {
   /* ---------------- FIXED SIZES ---------------- */
   const BUBBLE_SIZE = isMobile ? 90 : 150;
   const HALF = BUBBLE_SIZE / 2;
-  const SAFE_DISTANCE = BUBBLE_SIZE + (isMobile ? 20 : 30);
 
   /* ---------------- STAGE ---------------- */
   const STAGE_WIDTH = isMobile ? window.innerWidth : 900;
   const STAGE_HEIGHT = isMobile ? 420 : 520;
 
-  const MIN_X = -STAGE_WIDTH / 2 + HALF;
-  const MAX_X = STAGE_WIDTH / 2 - HALF;
-  const MIN_Y = -STAGE_HEIGHT / 2 + HALF;
-  const MAX_Y = STAGE_HEIGHT / 2 - HALF;
+  /* ---------------- CIRCULAR POSITION GENERATOR ---------------- */
+  const generateCircularPositions = (): Point[] => {
+    const count = minerals.length;
 
-  /* ---------------- OVERLAP CHECK ---------------- */
-  const overlaps = (p: Point) =>
-    positions.current.some(
-      q => Math.hypot(p.x - q.x, p.y - q.y) < SAFE_DISTANCE
-    );
+    const maxRadiusX = STAGE_WIDTH / 2 - HALF - 20;
+    const maxRadiusY = STAGE_HEIGHT / 2 - HALF - 20;
+    const radius = Math.min(maxRadiusX, maxRadiusY);
 
-  /* ---------------- SAFE POSITION GENERATOR ---------------- */
-  const generatePosition = (): Point => {
-    let tries = 0;
-
-    while (tries < 120) {
-      const x = gsap.utils.random(MIN_X, MAX_X);
-      const y = gsap.utils.random(MIN_Y, MAX_Y);
-
-      const point = { x, y };
-
-      if (!overlaps(point)) {
-        positions.current.push(point);
-        return point;
-      }
-
-      tries++;
-    }
-
-    // Guaranteed fallback (never overlaps, always visible)
-    const index = positions.current.length;
-    return {
-      x: 0,
-      y: MIN_Y + index * SAFE_DISTANCE,
-    };
+    return Array.from({ length: count }).map((_, i) => {
+      const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+      return {
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+      };
+    });
   };
 
-  /* ---------------- ANIMATION ---------------- */
+  /* ---------------- SCROLL-TRIGGERED ANIMATION ---------------- */
   useLayoutEffect(() => {
-    positions.current = [];
+    if (!sectionRef.current) return;
 
-    bubbleRefs.current.forEach((bubble, i) => {
-      const { x, y } = generatePosition();
+    const finalPositions = generateCircularPositions();
 
-      /* Initial state */
-      gsap.set(bubble, {
-        x,
-        y,
-        scale: 0.85,
-        opacity: 0,
-        force3D: true,
-        willChange: "transform",
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",      // 👈 when section enters viewport
+          once: true,            // 👈 play only once
+        },
       });
 
-      /* Entrance */
-      gsap.to(bubble, {
-        scale: 1,
-        opacity: 1,
-        duration: 1.8,
-        delay: i * 0.08,
-        ease: "power3.out",
-      });
+      bubbleRefs.current.forEach((bubble, i) => {
+        const { x, y } = finalPositions[i];
 
-      /* Smooth bounded float (ABSOLUTE) */
-      gsap.to(bubble, {
-        y: y + gsap.utils.random(-10, 10),
-        duration: gsap.utils.random(4, 6),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
+        gsap.set(bubble, {
+          x: 0,
+          y: 0,
+          scale: 0,
+          opacity: 0,
+          force3D: true,
+        });
+
+        tl.to(
+          bubble,
+          {
+            x,
+            y,
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+          },
+          i * 0.25
+        );
+
+        // Floating motion AFTER burst
+        tl.add(() => {
+          gsap.to(bubble, {
+            y: y + gsap.utils.random(-10, 10),
+            duration: gsap.utils.random(4, 6),
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        }, ">-0.3");
       });
-    });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -398,10 +396,7 @@ export const CraftSection = () => {
       {/* Bubble Stage */}
       <div
         className="relative flex items-center justify-center"
-        style={{
-          width: STAGE_WIDTH,
-          height: STAGE_HEIGHT,
-        }}
+        style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
       >
         {minerals.map((m, i) => (
           <div
@@ -412,21 +407,17 @@ export const CraftSection = () => {
               height: BUBBLE_SIZE,
             }}
             className="
-              absolute
-              rounded-full
+              absolute rounded-full
               flex flex-col items-center justify-center
               text-center
-              bg-white/10
-              backdrop-blur-xl
+              bg-white/10 backdrop-blur-xl
               border border-white/20
               shadow-[0_0_30px_rgba(0,255,255,0.25)]
               text-white
               pointer-events-none
             "
           >
-            <div className="text-xl sm:text-2xl mb-1">
-              {m.icon}
-            </div>
+            <div className="text-xl sm:text-2xl mb-1">{m.icon}</div>
             <div className="font-semibold tracking-wide text-[10px] sm:text-sm px-2">
               {m.title}
             </div>
@@ -440,3 +431,5 @@ export const CraftSection = () => {
     </section>
   );
 };
+
+export default CraftSection;
