@@ -441,7 +441,7 @@ interface BottleModelProps {
 }
 
 const BottleModel: FC<BottleModelProps> = ({ scale }) => {
-  const { scene } = useGLTF("/models/plastic_bottle.glb") as {
+  const { scene } = useGLTF("/models/bottle 3.glb") as {
     scene: THREE.Group;
   };
 
@@ -451,6 +451,9 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
 
   const isMobile =
     typeof window !== "undefined" && window.innerWidth < 768;
+
+    
+
 
   /* ---------------- Mouse (DESKTOP ONLY) ---------------- */
   useEffect(() => {
@@ -489,7 +492,9 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
 
     if (groupRef.current) {
       groupRef.current.scale.setScalar(scale);
-      groupRef.current.rotation.set(0, Math.PI / 4, 0);
+      groupRef.current.rotation.set(0, Math.PI / 12, 0);
+      // groupRef.current.rotation.set(0, 0, 0);
+
       groupRef.current.position.set(0, -1.6, 0); // intro start
     }
   }, [scene, scale]);
@@ -531,7 +536,7 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
 
     groupRef.current.rotation.y = THREE.MathUtils.lerp(
       groupRef.current.rotation.y,
-      mx * 0.3 + Math.PI / 4,
+      mx * 0.8 + Math.PI / 3,
       delta * 4
     );
   });
@@ -600,4 +605,4 @@ const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
 export default memo(Background3D);
 
 /* ---------------- Preload ---------------- */
-useGLTF.preload("/models/plastic_bottle.glb");
+useGLTF.preload("/models/bottle 3.glb");

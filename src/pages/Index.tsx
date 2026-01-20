@@ -14,7 +14,7 @@ import PrebookedCustomers from "@/components/sections/PreBookedCustomers";
 import Bottle from "@/components/3d/Bottle";
 
 
-// import Background3D from "@/components/3d/Background3D";
+import Background3D from "@/components/3d/Background3D";
 
 
 // import BottleHero from "@/components/3d/BottleHero";
@@ -37,35 +37,66 @@ const Index = () => {
   const [showBottle, setShowBottle] = useState(true);
 
   /* ---------------------------------------------
-     Fade bottle AFTER Story section
+     Fade bottle AFTER story section
   --------------------------------------------- */
-  useEffect(() => {
-    const story = document.getElementById("story");
-    if (!story) return;
+  // useEffect(() => {
+  //   const story = document.getElementById("craft");
+  //   if (!story) return;
 
-    const onScroll = () => {
-      const rect = story.getBoundingClientRect();
+  //   const onScroll = () => {
+  //     const rect = story.getBoundingClientRect();
 
-      // Story fully passed → fade bottle
-      if (rect.bottom <= 0) {
-        setShowBottle(false);
-      }
+  //     // Story fully passed → fade bottle
+  //     if (rect.bottom <= 0) {
+  //       setShowBottle(false);
+  //     }
 
-      // When story is visible again → show bottle
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        setShowBottle(true);
-      }
-    };
+  //     // When story is visible again → show bottle
+  //     if (rect.top < window.innerHeight && rect.bottom > 0) {
+  //       setShowBottle(true);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => window.removeEventListener("scroll", onScroll);
+  // }, []);
+
+  /* ---------------------------------------------
+   Fade bottle AFTER Craft section
+--------------------------------------------- */
+useEffect(() => {
+  const craft = document.getElementById("craft");
+  if (!craft) return;
+
+  const onScroll = () => {
+    const rect = craft.getBoundingClientRect();
+
+    // Craft fully passed → hide bottle
+    if (rect.bottom <= 0) {
+      setShowBottle(false);
+      return;
+    }
+
+    // Craft visible or above → show bottle
+    if (rect.top < window.innerHeight) {
+      setShowBottle(true);
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll(); // run once on load
+
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
+
+
+
 
   /* ---------------------------------------------
      Bottle scaling (Hero + Story)
   --------------------------------------------- */
   useEffect(() => {
-    const hero = document.getElementById("hero");
+    const hero = document.getElementById("craft");
     if (!hero) return;
 
     const onScroll = () => {
@@ -78,7 +109,7 @@ const Index = () => {
       );
 
       const BASE_SCALE = 0.08;
-      const MIN_SCALE = 0.06;
+      const MIN_SCALE = 0.08;
 
       const scale =
         BASE_SCALE - progress * (BASE_SCALE - MIN_SCALE);
@@ -216,12 +247,12 @@ const Index = () => {
       {/* Content */}
       <div className="relative z-20">
         {/* 3D Bottle with fade */}
-        {/* <Background3D scale={bottleScale} enabled={showBottle} /> */}
+        <Background3D scale={bottleScale} enabled={showBottle} />
 
         {/* Bottle (Mobile image / Desktop 3D) */}
         {/* <BottleHero scale={bottleScale} enabled={showBottle} /> */}
         {/* <BottleParallax /> */}
-        <Bottle />
+        {/* <Bottle /> */}
 
         <HeroSection setRotationY={setRotationY} />
         <CraftSection />
