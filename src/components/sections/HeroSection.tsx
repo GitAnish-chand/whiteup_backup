@@ -108,6 +108,14 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
 
             {/* PRIMARY CTA — ORANGE GRADIENT */}
             <button
+
+              onClick={() => {
+                const footer = document.getElementById("footer");
+                footer?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
               className="
                   relative overflow-hidden
                   text-lg font-semibold
