@@ -65,7 +65,7 @@ const Index = () => {
    Fade bottle AFTER Craft section
 --------------------------------------------- */
 useEffect(() => {
-  const craft = document.getElementById("craft");
+  const craft = document.getElementById("story");
   if (!craft) return;
 
   const onScroll = () => {

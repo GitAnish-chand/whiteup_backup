@@ -12,6 +12,7 @@ import OtherBusiness from "./pages/Paper";
 import BusinessLayout from "@/components/other_businesses/BusinessLayout";
 import Paper from "./pages/Paper";
 import Soda from "./pages/Soda";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+        <ScrollToTop />
           <Routes>
             {/* Layout route */}
             <Route element={<BusinessLayout />}>

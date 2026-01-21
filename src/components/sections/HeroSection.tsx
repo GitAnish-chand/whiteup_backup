@@ -69,7 +69,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
             font-body px-4 py-7
             rounded-xl bg-black/20 backdrop-blur-sm"
         >
-          Where innovation meets refreshment. Experience the future of craft beverages.
+          Pure innovation. Elevated hydration.
         </motion.p>
         
 

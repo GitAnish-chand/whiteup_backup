@@ -147,134 +147,9 @@
 
 //---------------------------------------------------------------------------------------------------
 
-
-// import { useEffect, useRef } from "react";
-// import gsap from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// gsap.registerPlugin(ScrollTrigger);
-
-// const minerals = [
-//   { title: "Vitamin B12", icon: "💎" },
-//   { title: "Calcium (Ca)", icon: "🦴" },
-//   { title: "Magnesium (Mg)", icon: "⚡" },
-//   { title: "Potassium (K)", icon: "❤️" },
-//   { title: "Zinc (Zn)", icon: "🛡️" },
-//   { title: "Sodium (Na)", icon: "💧" },
-// ];
-
-// export const CraftSection = () => {
-//   const sectionRef = useRef<HTMLDivElement>(null);
-//   const bubbleRefs = useRef<HTMLDivElement[]>([]);
-
-//   useEffect(() => {
-//     const LEFT_X = -360;
-//     const RIGHT_X = 360;
-
-//     // 🔒 FIXED vertical slots (NO OVERLAP EVER)
-//     const Y_SLOTS = [-220, -60, 100];
-
-//     bubbleRefs.current.forEach((bubble, i) => {
-//       const isLeft = i < 3;
-//       const slotIndex = isLeft ? i : i - 3;
-
-//       const targetX = isLeft ? LEFT_X : RIGHT_X;
-//       const targetY = Y_SLOTS[slotIndex];
-
-//       // ENTRY animation (center → slot)
-//       gsap.fromTo(
-//         bubble,
-//         {
-//           x: 0,
-//           y: 0,
-//           scale: 0,
-//           opacity: 0,
-//         },
-//         {
-//           x: targetX,
-//           y: targetY,
-//           scale: 1,
-//           opacity: 1,
-//           duration: 1.4,
-//           ease: "power3.out",
-//           delay: i * 0.12,
-//           scrollTrigger: {
-//             trigger: sectionRef.current,
-//             start: "top 70%",
-//           },
-//         }
-//       );
-
-//       // 🫧 FLOATING (SAFE — uses yPercent, not y)
-//       gsap.to(bubble, {
-//         yPercent: gsap.utils.random(-6, 6),
-//         duration: gsap.utils.random(3, 5),
-//         repeat: -1,
-//         yoyo: true,
-//         ease: "sine.inOut",
-//         delay: i * 0.4,
-//       });
-//     });
-//   }, []);
-
-//   return (
-//     <section
-//       ref={sectionRef}
-//       className="relative min-h-screen py-40 overflow-hidden flex items-center justify-center"
-//     >
-//       {/* Heading */}
-//       <div className="absolute top-24 text-center z-10">
-//         <span className="uppercase tracking-[0.3em] text-orange-300 text-sm">
-//           The White Up
-//         </span>
-//         <h2 className="font-display text-5xl md:text-7xl mt-4">
-//           <span className="text-white">Mineral</span>{" "}
-//           <span className="gradient-text">Composition</span>
-//         </h2>
-//       </div>
-
-//       {/* Bubble Stage */}
-//       <div className="relative w-full h-[700px] flex items-center justify-center">
-//         {minerals.map((m, i) => (
-//           <div
-//             key={m.title}
-//             ref={(el) => {
-//               if (el) bubbleRefs.current[i] = el;
-//             }}
-//             className="
-//               absolute
-//               w-40 h-40
-//               rounded-full
-//               flex flex-col items-center justify-center
-//               text-center
-//               bg-white/10
-//               backdrop-blur-xl
-//               border border-white/20
-//               shadow-[0_0_40px_rgba(0,255,255,0.25)]
-//               text-white
-//               pointer-events-none
-//             "
-//           >
-//             <div className="text-3xl mb-2">{m.icon}</div>
-//             <div className="font-semibold tracking-wide text-sm">
-//               {m.title}
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Ambient Glows */}
-//       <div className="absolute left-1/3 top-1/2 w-[500px] h-[500px] bg-neon-cyan/10 rounded-full blur-3xl" />
-//       <div className="absolute right-1/4 top-1/3 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl" />
-//     </section>
-//   );
-// };
-
-
-// ---------------------------------------------------------------------------------------------------
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -287,138 +162,108 @@ const minerals = [
   { title: "Sodium (Na)", icon: "💧" },
 ];
 
-type Point = { x: number; y: number };
-
 export const CraftSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const bubbleRefs = useRef<HTMLDivElement[]>([]);
 
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
 
-  /* ---------------- FIXED SIZES ---------------- */
-  const BUBBLE_SIZE = isMobile ? 90 : 150;
-  const HALF = BUBBLE_SIZE / 2;
+    // 📱 Mobile-safe horizontal distance
+    const OFFSET_X = isMobile
+      ? window.innerWidth * 0.25
+      : 360;
 
-  /* ---------------- STAGE ---------------- */
-  const STAGE_WIDTH = isMobile ? window.innerWidth : 900;
-  const STAGE_HEIGHT = isMobile ? 420 : 520;
+    // 📱 Mobile vertical slots
+    const Y_SLOTS = isMobile
+      ? [-140, 0, 140]
+      : [-220, -60, 100];
 
-  /* ---------------- CIRCULAR POSITION GENERATOR ---------------- */
-  const generateCircularPositions = (): Point[] => {
-    const count = minerals.length;
+    bubbleRefs.current.forEach((bubble, i) => {
+      const isLeft = i < 3;
+      const slotIndex = isLeft ? i : i - 3;
 
-    const maxRadiusX = STAGE_WIDTH / 2 - HALF - 20;
-    const maxRadiusY = STAGE_HEIGHT / 2 - HALF - 20;
-    const radius = Math.min(maxRadiusX, maxRadiusY);
+      const targetX = isLeft ? -OFFSET_X : OFFSET_X;
+      const targetY = Y_SLOTS[slotIndex];
 
-    return Array.from({ length: count }).map((_, i) => {
-      const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
-      return {
-        x: Math.cos(angle) * radius,
-        y: Math.sin(angle) * radius,
-      };
-    });
-  };
-
-  /* ---------------- SCROLL-TRIGGERED ANIMATION ---------------- */
-  useLayoutEffect(() => {
-    if (!sectionRef.current) return;
-
-    const finalPositions = generateCircularPositions();
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",      // 👈 when section enters viewport
-          once: true,            // 👈 play only once
-        },
-      });
-
-      bubbleRefs.current.forEach((bubble, i) => {
-        const { x, y } = finalPositions[i];
-
-        gsap.set(bubble, {
+      // ENTRY animation
+      gsap.fromTo(
+        bubble,
+        {
           x: 0,
           y: 0,
           scale: 0,
           opacity: 0,
-          force3D: true,
-        });
-
-        tl.to(
-          bubble,
-          {
-            x,
-            y,
-            scale: 1,
-            opacity: 1,
-            duration: 0.8,
-            ease: "back.out(1.7)",
+        },
+        {
+          x: targetX,
+          y: targetY,
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: i * 0.1,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
           },
-          i * 0.25
-        );
+        }
+      );
 
-        // Floating motion AFTER burst
-        tl.add(() => {
-          gsap.to(bubble, {
-            y: y + gsap.utils.random(-10, 10),
-            duration: gsap.utils.random(4, 6),
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-          });
-        }, ">-0.3");
+      // FLOATING (SAFE)
+      gsap.to(bubble, {
+        yPercent: gsap.utils.random(-6, 6),
+        duration: gsap.utils.random(3, 5),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: i * 0.3,
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      id="craft"
-      className="relative min-h-screen py-32 overflow-hidden flex items-center justify-center z-10"
+      className="relative min-h-screen py-24 md:py-40 overflow-hidden flex items-center justify-center"
     >
       {/* Heading */}
-      <div className="absolute top-20 text-center z-10 px-4">
-        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs backdrop-blur-sm bg-black/30 px-4 py-1 rounded-full">
+      <div className="absolute top-12 md:top-24 text-center z-10 px-4">
+        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs md:text-sm">
           The White Up
         </span>
-        <h2 className="font-display text-4xl sm:text-6xl mt-4">
+        <h2 className="font-display text-4xl md:text-7xl mt-4">
           <span className="text-white">Mineral</span>{" "}
           <span className="gradient-text">Composition</span>
         </h2>
       </div>
 
       {/* Bubble Stage */}
-      <div
-        className="relative flex items-center justify-center"
-        style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
-      >
+      <div className="relative w-full h-[520px] md:h-[700px] flex items-center justify-center">
         {minerals.map((m, i) => (
           <div
             key={m.title}
-            ref={el => el && (bubbleRefs.current[i] = el)}
-            style={{
-              width: BUBBLE_SIZE,
-              height: BUBBLE_SIZE,
+            ref={(el) => {
+              if (el) bubbleRefs.current[i] = el;
             }}
             className="
-              absolute rounded-full
+              absolute
+              w-24 h-24 md:w-40 md:h-40
+              rounded-full
               flex flex-col items-center justify-center
               text-center
-              bg-white/10 backdrop-blur-xl
+              bg-white/10
+              backdrop-blur-xl
               border border-white/20
               shadow-[0_0_30px_rgba(0,255,255,0.25)]
               text-white
               pointer-events-none
             "
           >
-            <div className="text-xl sm:text-2xl mb-1">{m.icon}</div>
-            <div className="font-semibold tracking-wide text-[10px] sm:text-sm px-2">
+            <div className="text-xl md:text-3xl mb-1 md:mb-2">
+              {m.icon}
+            </div>
+            <div className="font-semibold tracking-wide text-[10px] md:text-sm">
               {m.title}
             </div>
           </div>
@@ -426,10 +271,175 @@ export const CraftSection = () => {
       </div>
 
       {/* Ambient Glows */}
-      <div className="absolute left-1/3 top-1/2 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-3xl hidden sm:block" />
-      <div className="absolute right-1/4 top-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl hidden sm:block" />
+      <div className="absolute left-1/3 top-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-neon-cyan/10 rounded-full blur-3xl" />
+      <div className="absolute right-1/4 top-1/3 w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-primary/10 rounded-full blur-3xl" />
     </section>
   );
 };
 
-export default CraftSection;
+
+// ---------------------------------------------------------------------------------------------------
+
+
+
+// import { useLayoutEffect, useRef } from "react";
+// import gsap from "gsap";
+// import ScrollTrigger from "gsap/ScrollTrigger";
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// const minerals = [
+//   { title: "Vitamin B12", icon: "💎" },
+//   { title: "Calcium (Ca)", icon: "🦴" },
+//   { title: "Magnesium (Mg)", icon: "⚡" },
+//   { title: "Potassium (K)", icon: "❤️" },
+//   { title: "Zinc (Zn)", icon: "🛡️" },
+//   { title: "Sodium (Na)", icon: "💧" },
+// ];
+
+// type Point = { x: number; y: number };
+
+// export const CraftSection = () => {
+//   const sectionRef = useRef<HTMLDivElement>(null);
+//   const bubbleRefs = useRef<HTMLDivElement[]>([]);
+
+//   const isMobile =
+//     typeof window !== "undefined" && window.innerWidth < 768;
+
+//   /* ---------------- FIXED SIZES ---------------- */
+//   const BUBBLE_SIZE = isMobile ? 90 : 150;
+//   const HALF = BUBBLE_SIZE / 2;
+
+//   /* ---------------- STAGE ---------------- */
+//   const STAGE_WIDTH = isMobile ? window.innerWidth : 900;
+//   const STAGE_HEIGHT = isMobile ? 420 : 520;
+
+//   /* ---------------- CIRCULAR POSITION GENERATOR ---------------- */
+//   const generateCircularPositions = (): Point[] => {
+//     const count = minerals.length;
+
+//     const maxRadiusX = STAGE_WIDTH / 2 - HALF - 20;
+//     const maxRadiusY = STAGE_HEIGHT / 2 - HALF - 20;
+//     const radius = Math.min(maxRadiusX, maxRadiusY);
+
+//     return Array.from({ length: count }).map((_, i) => {
+//       const angle = (i / count) * Math.PI * 2 - Math.PI / 2;
+//       return {
+//         x: Math.cos(angle) * radius,
+//         y: Math.sin(angle) * radius,
+//       };
+//     });
+//   };
+
+//   /* ---------------- SCROLL-TRIGGERED ANIMATION ---------------- */
+//   useLayoutEffect(() => {
+//     if (!sectionRef.current) return;
+
+//     const finalPositions = generateCircularPositions();
+
+//     const ctx = gsap.context(() => {
+//       const tl = gsap.timeline({
+//         scrollTrigger: {
+//           trigger: sectionRef.current,
+//           start: "top 70%",      // 👈 when section enters viewport
+//           once: true,            // 👈 play only once
+//         },
+//       });
+
+//       bubbleRefs.current.forEach((bubble, i) => {
+//         const { x, y } = finalPositions[i];
+
+//         gsap.set(bubble, {
+//           x: 0,
+//           y: 0,
+//           scale: 0,
+//           opacity: 0,
+//           force3D: true,
+//         });
+
+//         tl.to(
+//           bubble,
+//           {
+//             x,
+//             y,
+//             scale: 1,
+//             opacity: 1,
+//             duration: 0.8,
+//             ease: "back.out(1.7)",
+//           },
+//           i * 0.25
+//         );
+
+//         // Floating motion AFTER burst
+//         tl.add(() => {
+//           gsap.to(bubble, {
+//             y: y + gsap.utils.random(-10, 10),
+//             duration: gsap.utils.random(4, 6),
+//             repeat: -1,
+//             yoyo: true,
+//             ease: "sine.inOut",
+//           });
+//         }, ">-0.3");
+//       });
+//     }, sectionRef);
+
+//     return () => ctx.revert();
+//   }, []);
+
+//   return (
+//     <section
+//       ref={sectionRef}
+//       id="craft"
+//       className="relative min-h-screen py-32 overflow-hidden flex items-center justify-center z-10"
+//     >
+//       {/* Heading */}
+//       <div className="absolute top-20 text-center z-10 px-4">
+//         <span className="uppercase tracking-[0.3em] text-orange-300 text-xs backdrop-blur-sm bg-black/30 px-4 py-1 rounded-full">
+//           The White Up
+//         </span>
+//         <h2 className="font-display text-4xl sm:text-6xl mt-4">
+//           <span className="text-white">Mineral</span>{" "}
+//           <span className="gradient-text">Composition</span>
+//         </h2>
+//       </div>
+
+//       {/* Bubble Stage */}
+//       <div
+//         className="relative flex items-center justify-center"
+//         style={{ width: STAGE_WIDTH, height: STAGE_HEIGHT }}
+//       >
+//         {minerals.map((m, i) => (
+//           <div
+//             key={m.title}
+//             ref={el => el && (bubbleRefs.current[i] = el)}
+//             style={{
+//               width: BUBBLE_SIZE,
+//               height: BUBBLE_SIZE,
+//             }}
+//             className="
+//               absolute rounded-full
+//               flex flex-col items-center justify-center
+//               text-center
+//               bg-white/10 backdrop-blur-xl
+//               border border-white/20
+//               shadow-[0_0_30px_rgba(0,255,255,0.25)]
+//               text-white
+//               pointer-events-none
+//             "
+//           >
+//             <div className="text-xl sm:text-2xl mb-1">{m.icon}</div>
+//             <div className="font-semibold tracking-wide text-[10px] sm:text-sm px-2">
+//               {m.title}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Ambient Glows */}
+//       <div className="absolute left-1/3 top-1/2 w-[400px] h-[400px] bg-neon-cyan/10 rounded-full blur-3xl hidden sm:block" />
+//       <div className="absolute right-1/4 top-1/3 w-[300px] h-[300px] bg-primary/10 rounded-full blur-3xl hidden sm:block" />
+//     </section>
+//   );
+// };
+
+// export default CraftSection;
