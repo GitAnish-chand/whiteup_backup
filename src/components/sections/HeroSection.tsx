@@ -107,7 +107,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center  ">
 
             {/* PRIMARY CTA — ORANGE GRADIENT */}
-            <button
+            {/* <button
 
               onClick={() => {
                 const footer = document.getElementById("footer");
@@ -134,7 +134,35 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
                 "
             >
               Contact Us
+            </button> */}
+
+            <button
+              onClick={() => {
+                const footer = document.getElementById("footer");
+                footer?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="
+                relative z-50
+                transform-gpu
+                will-change-transform
+
+                text-lg font-semibold
+                px-10 py-4 rounded-full
+                text-white
+
+                bg-gradient-to-r
+                from-orange-400 via-orange-500 to-amber-400
+
+                shadow-[0_10px_30px_rgba(251,146,60,0.45)]
+                hover:shadow-[0_15px_45px_rgba(251,146,60,0.7)]
+                hover:scale-105
+
+                transition-all duration-300 ease-out
+              "
+            >
+              Contact Us
             </button>
+
 
             {/* SECONDARY CTA — COOL BUSINESS COLOR */}
             {/* <button
