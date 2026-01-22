@@ -452,7 +452,7 @@
 //   const isMobile =
 //     typeof window !== "undefined" && window.innerWidth < 768;
 
-    
+
 
 
 //   /* ---------------- Mouse (DESKTOP ONLY) ---------------- */
@@ -671,7 +671,10 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
     });
 
     if (groupRef.current) {
-      groupRef.current.scale.setScalar(scale *0.9);
+      // groupRef.current.scale.setScalar(scale *0.9);
+      const finalScale = isMobile ? scale * 0.6 : scale * 0.9;
+      groupRef.current.scale.setScalar(finalScale);
+
       groupRef.current.rotation.set(0, Math.PI / 12, 0);
       // groupRef.current.rotation.set(0, 0, 0);
 
