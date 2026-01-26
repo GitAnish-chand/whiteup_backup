@@ -44,10 +44,10 @@ const Counter = ({ end, suffix = "", prefix = "", duration = 2 }: CounterProps) 
 };
 
 const metrics = [
-  { value: 50000, suffix: "+", label: "Tons Annual Production" },
+  { value: 60000, suffix: "+", label: "Tons Annual Production" },
   { value: 200, suffix: "+", label: "Product Varieties" },
-  { value: 35, suffix: " Countries", label: "Global Export" },
-  { value: 25, suffix: " Years", label: "Industry Excellence" },
+  { value: 25, suffix: "+", label: "Clients" },
+  { value: 5, suffix: " Years", label: "Industry Excellence" },
 ];
 
 const PaperMetricsSection = () => {

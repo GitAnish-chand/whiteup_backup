@@ -703,7 +703,7 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
 
     /* ---- MOBILE (VERY LIGHT) ---- */
     if (isMobile) {
-      groupRef.current.rotation.y += delta * 0.08;
+      groupRef.current.rotation.y += delta * 0.7;
       return;
     }
 
