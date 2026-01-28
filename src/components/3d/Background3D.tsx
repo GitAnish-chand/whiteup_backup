@@ -221,18 +221,18 @@ const BottleModel: FC<BottleModelProps> = ({ scale }) => {
   const introDone = useRef(false);
 
   const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
+    typeof window !== "undefined" && window.innerWidth <= 1024;
 
   /* ---------------- Mouse (DESKTOP ONLY) ---------------- */
   useEffect(() => {
     if (isMobile) return;
 
-    const onMove = (e: MouseEvent) => {
+    const onMove = (e: PointerEvent) => {
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, [isMobile]);
 
@@ -325,7 +325,7 @@ interface Background3DProps {
 
 const Background3D: FC<Background3DProps> = ({ scale, enabled }) => {
   const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
+    typeof window !== "undefined" && window.innerWidth <= 1024;
 
   return (
     <motion.div

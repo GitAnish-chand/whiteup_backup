@@ -66,7 +66,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           className=" text-white text-base md:text-lg lg:text-xl
-            font-body px-4 py-7
+            font-body px-4 py-3 mx-auto max-w-xl
             rounded-xl bg-black/20 backdrop-blur-sm"
         >
           Pure innovation. Elevated hydration.
