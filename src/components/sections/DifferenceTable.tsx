@@ -143,7 +143,9 @@ export const DifferenceTable = () => {
             viewport={{ once: true }}
             className="glass rounded-3xl p-4 sm:p-8 w-full"
         >
-            <h3 className="font-display text-2xl sm:text-4xl lg:text-5xl mb-10 gradient-text text-center">
+            {/* <h3 className="font-display text-2xl sm:text-4xl lg:text-5xl mb-10 gradient-text text-center"> */}
+            <h3 className="font-display text-3xl sm:text-5xl lg:text-6xl mb-12 gradient-text text-center">
+
                 Why We're Different
             </h3>
 
@@ -152,7 +154,8 @@ export const DifferenceTable = () => {
 
                 {/* OUR BRAND */}
                 <div>
-                    <h4 className="text-neon-cyan font-semibold mb-4 uppercase tracking-wider text-xs sm:text-sm">
+                    {/* <h4 className="text-neon-cyan font-semibold mb-4 uppercase tracking-wider text-xs sm:text-sm"> */}
+                    <h4 className="text-neon-cyan font-semibold mb-6 uppercase tracking-wider text-sm sm:text-base lg:text-lg">
                         Our Brand
                     </h4>
 
@@ -160,7 +163,8 @@ export const DifferenceTable = () => {
                         {differences.map((item, i) => (
                             <li key={i} className="flex items-start gap-2">
                                 <span className="mt-1">{item.icon}</span>
-                                <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full">
+                                {/* <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full"> */}
+                                <span className="text-sm sm:text-base lg:text-lg break-words max-w-full">
                                     {item.our}
                                 </span>
 
@@ -174,7 +178,8 @@ export const DifferenceTable = () => {
 
                 {/* OTHER BRANDS */}
                 <div>
-                    <h4 className="text-white/70 font-semibold mb-4 uppercase tracking-wider text-xs sm:text-sm">
+                    {/* <h4 className="text-white/70 font-semibold mb-4 uppercase tracking-wider text-xs sm:text-sm"> */}
+                    <h4 className="text-white/70 font-semibold mb-6 uppercase tracking-wider text-sm sm:text-base lg:text-lg">
                         Other Brands
                     </h4>
 
@@ -182,10 +187,12 @@ export const DifferenceTable = () => {
                         {differences.map((item, i) => (
                             <li key={i} className="flex items-start gap-2 text-muted-foreground">
                                 <span className="w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center flex-shrink-0 mt-1">
-  <XCircle className="w-full h-full text-red-500" />
-</span>
+                                    <XCircle className="w-full h-full text-red-500" />
+                                </span>
 
-                                <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full">
+                                {/* <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full"> */}
+                                <span className="text-sm sm:text-base lg:text-lg">
+
                                     {item.other}
                                 </span>
 
