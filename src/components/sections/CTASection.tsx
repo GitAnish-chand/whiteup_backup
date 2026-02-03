@@ -183,8 +183,8 @@ export const CTASection = () => {
             className="mb-8"
           >
             <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-neon-cyan to-water-deep flex items-center justify-center">
-              <span className="font-display text-3xl text-background">
-                Wu
+              <span className="font-display text-2xl text-background">
+                whiteup
               </span>
             </div>
           </motion.div>
@@ -226,7 +226,7 @@ export const CTASection = () => {
 
             {/* Other Business */}
             <button
-              onClick={() => navigate("/paper")}
+              onClick={() => navigate("/about")}
               className="
                 relative overflow-hidden
                 text-lg font-semibold
@@ -240,7 +240,7 @@ export const CTASection = () => {
                 transition-all duration-300 ease-out
               "
             >
-              Other Business
+              About us
             </button>
           </div>
 

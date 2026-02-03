@@ -54,7 +54,8 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <h1 className="font-display text-7xl md:text-9xl lg:text-[12rem] leading-none mb-6 ">
-            <span className="gradient-text gradient-red-classic z-10 ">White</span>
+            {/* <span className="gradient-text gradient-red-classic z-10 ">White</span> */}
+            <span className="gradient-text-water">white</span>
             {/* <span className="inline-block w-12 md:w-20 lg:w-28" /> */}
             {/* <span className="w-full h-64 md:h-auto md:w-[300px] lg:w-[450px] " /> */}
             <span className="text-foreground text-glow ">up</span>

@@ -114,6 +114,7 @@
 //     );
 // };
 
+
 import { motion } from "framer-motion";
 import {
     CheckCircle,
@@ -164,7 +165,7 @@ export const DifferenceTable = () => {
                             <li key={i} className="flex items-start gap-2">
                                 <span className="mt-1">{item.icon}</span>
                                 {/* <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full"> */}
-                                <span className="text-sm sm:text-base lg:text-lg break-words max-w-full">
+                                <span className="text-sm sm:text-base lg:text-xl break-words max-w-full">
                                     {item.our}
                                 </span>
 
@@ -191,7 +192,7 @@ export const DifferenceTable = () => {
                                 </span>
 
                                 {/* <span className="text-[11px] sm:text-sm lg:text-base break-words max-w-full"> */}
-                                <span className="text-sm sm:text-base lg:text-lg">
+                                <span className="text-sm sm:text-base lg:text-xl">
 
                                     {item.other}
                                 </span>

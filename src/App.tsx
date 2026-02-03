@@ -13,6 +13,8 @@ import BusinessLayout from "@/components/other_businesses/BusinessLayout";
 import Paper from "./pages/Paper";
 import Soda from "./pages/Soda";
 import ScrollToTop from "./components/ScrollToTop";
+import AboutPage from "./pages/AboutPage";
+
 
 const queryClient = new QueryClient();
 
@@ -67,7 +69,8 @@ const App = () => (
 
               {/* Other Business page inside layout */}
               <Route path="/paper" element={<Paper />} />
-              <Route path="/soda" element= {<Soda /> } />
+              <Route path="/soda" element={<Soda />} />
+              <Route path="/about" element={<AboutPage />} />
 
             </Route>
 
