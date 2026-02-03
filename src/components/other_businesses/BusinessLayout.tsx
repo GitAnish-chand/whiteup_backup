@@ -124,14 +124,24 @@ const BusinessLayout = () => {
           border-b border-white/10
         "
       >
-        <div className="container flex justify-between items-center py-4 px-6">
+        <div className="container flex items-center justify-between sm:justify-between py-4 px-6">
+
           {/* Brand */}
-          <span className="font-display text-xl gradient-text">
+          {/* <span className="font-display text-xl gradient-text">
             <NavLink to="/">WhiteUp</NavLink>
+          </span> */}
+
+          <span className="font-display text-xl">
+            <NavLink to="/" className="flex">
+              <span className="gradient-text-water">white</span>
+              <span className="text-foreground text-glow">up</span>
+            </NavLink>
           </span>
 
           {/* Business Links */}
-          <div className="flex gap-6 text-white">
+          {/* <div className="flex gap-6 text-white"> */}
+          <div className="flex gap-4 sm:gap-6 text-white ml-6 sm:ml-0">
+
 
             {/* About Us - ALWAYS visible */}
             <NavLink
