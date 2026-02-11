@@ -5,7 +5,7 @@
 // export const CTASection = () => {
 //   const ref = useRef(null);
 //   const navigate = useNavigate();
-  
+
 //   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
 //   return (
@@ -198,10 +198,10 @@ export const CTASection = () => {
             Hydration Reimagined
           </p>
 
-          <p className="text-white text-lg max-w-xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
+          {/* <p className="text-white text-lg max-w-xl mx-auto mb-12 font-body px-4 py-2 rounded-xl bg-black/20 backdrop-blur-sm">
             Experience the perfect blend of nature's minerals and modern
             wellness. Every sip brings you closer to optimal health.
-          </p>
+          </p> */}
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
@@ -233,9 +233,9 @@ export const CTASection = () => {
                 px-10 py-4 rounded-full
                 text-white
                 bg-gradient-to-r
-                from-purple-500 via-fuchsia-500 to-pink-500
-                shadow-[0_10px_30px_rgba(168,85,247,0.45)]
-                hover:shadow-[0_15px_45px_rgba(236,72,153,0.6)]
+                from-red-800 via-red-700 to-red-600
+                shadow-[0_10px_30px_rgba(220, 38, 38, 0.6)]
+                hover:shadow-[0_15px_45px_rgba(220, 38, 38, 0.6)]
                 hover:scale-105
                 transition-all duration-300 ease-out
               "
@@ -264,7 +264,7 @@ export const CTASection = () => {
 
         {/* FOOTER (Professional layout) */}
         <motion.div
-        id="footer"
+          id="footer"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}

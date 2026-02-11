@@ -363,7 +363,7 @@ export const VisionSection = () => {
 
       {/* Background glow */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent animate-pulse-glow" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-neon-cyan/10 via-transparent to-transparent animate-pulse-glow" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
@@ -375,23 +375,23 @@ export const VisionSection = () => {
           transition={{ duration: 1.1 }}
           className="text-center mb-24"
         >
-          <span className="text-primary uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block bg-black/20 backdrop-blur-sm text-glow">
+          <span className="text-neon-cyan uppercase tracking-[0.3em] text-base md:text-lg font-semibold mb-4 block text-glow">
             Our Vision
           </span>
 
           <h2 className="font-display text-5xl md:text-7xl mb-6 flex flex-col">
-            <span className="bg-black/20 backdrop-blur-sm text-glow">
+            <span className=" text-glow">
               HYDRATING
             </span>
-            <span className="gradient-text bg-black/20 backdrop-blur-sm">
+            <span className="gradient-text">
               THE FUTURE
             </span>
           </h2>
 
           {/* ✅ Typing starts when section appears */}
-          <TypingParagraph
+          {/* <TypingParagraph
             text="We're not just selling water – we're pioneering a sustainable future for the industry and the planet."
-          />
+          /> */}
         </motion.div>
 
         {/* TIMELINE */}
@@ -402,7 +402,7 @@ export const VisionSection = () => {
               opacity: lineOpacity,
               transformOrigin: "top"
             }}
-            className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-neon-cyan to-primary"
+            className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-white via-neon-cyan to-white"
           />
 
           {visionItems.map((item, index) => {
@@ -426,7 +426,7 @@ export const VisionSection = () => {
                   className="
                     absolute left-1/2 -translate-x-1/2
                     w-4 h-4 rounded-full
-                    bg-gradient-to-r from-primary via-neon-cyan to-primary
+                    bg-gradient-to-r from-white via-neon-cyan to-white  
                     shadow-[0_0_12px_rgba(34,211,238,0.8)]
                     z-10
                   "
@@ -439,7 +439,7 @@ export const VisionSection = () => {
                       : "text-center md:text-left md:pl-12"
                   }`}
                 >
-                  <span className="font-display text-4xl text-primary inline-block mt-5">
+                  <span className="font-display text-4xl text-neon-cyan inline-block mt-5">
                     {item.year}
                   </span>
 

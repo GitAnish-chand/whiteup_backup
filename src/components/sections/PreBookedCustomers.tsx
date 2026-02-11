@@ -19,11 +19,11 @@ const PrebookedCustomers = () => {
         <section className="relative py-16 overflow-hidden pt-24 pb-40">
             {/* Heading */}
             <div className="text-center mb-10 ">
-                <h3 className=" uppercase tracking-widest text-xl mb-3  text-blue-500  text-glow ">
+                <h3 className=" uppercase tracking-widest text-xl mb-3  text-neon-cyan/80 text-glow ">
                     Trusted by Doctors
                 </h3>
 
-                <h2 className="text-3xl sm:text-4xl font-display text-orange-400 text-glow-clinical ">
+                <h2 className="text-3xl sm:text-4xl font-display text-neon-cyan/90 text-glow-clinical ">
                     10+ Customers Have Already Pre-Booked
                 </h2>
             </div>

@@ -61,7 +61,7 @@
 //           transition={{ duration: 0.8 }}
 //           className="text-center mb-20"
 //         >
-        
+
 
 //           <span
 //             className="
@@ -138,7 +138,7 @@
 //       {/* Decorative elements */}
 //       <div className="absolute left-10 top-1/2 -translate-y-1/2 w-32 h-32 bg-neon-cyan/10 rounded-full blur-3xl" />
 //       <div className="absolute right-10 top-1/3 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
-      
+
 //     </section>
 //   );
 // };
@@ -229,7 +229,7 @@ export const CraftSection = () => {
     >
       {/* Heading */}
       <div className="absolute top-12 md:top-24 text-center z-10 px-4">
-        <span className="uppercase tracking-[0.3em] text-orange-300 text-xs md:text-sm">
+        <span className="uppercase tracking-[0.3em] text-neon-cyan/100 text-xs md:text-sm">
           The White Up
         </span>
         <h2 className="font-display text-4xl md:text-7xl mt-4">
@@ -272,7 +272,7 @@ export const CraftSection = () => {
 
       {/* Ambient Glows */}
       <div className="absolute left-1/3 top-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-neon-cyan/10 rounded-full blur-3xl" />
-      <div className="absolute right-1/4 top-1/3 w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-primary/10 rounded-full blur-3xl" />
+      <div className="absolute right-1/4 top-1/3 w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-neon-cyan/10 rounded-full blur-3xl" />
     </section>
   );
 };

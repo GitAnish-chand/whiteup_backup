@@ -41,7 +41,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-cyan/10 rounded-full blur-3xl animate-pulse-glow" />
         <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-pulse-glow"
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-neon-cyan/20 rounded-full blur-3xl animate-pulse-glow"
           style={{ animationDelay: "1.5s" }}
         />
       </div>
@@ -54,7 +54,7 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
           transition={{ duration: 1, delay: 0.3 }}
         >
           {/* <h1 className="font-display text-7xl md:text-9xl lg:text-[12rem] leading-none mb-6 "> */}
-          <h1 className="font-display text-7xl md:text-9xl lg:text-[12rem] leading-none mb-10 md:mb-6">
+          <h1 className="font-display  text-7xl md:text-9xl lg:text-[12rem] leading-none mb-20  md:mb-32 lg:mb-20">
 
             {/* <span className="gradient-text gradient-red-classic z-10 ">White</span> */}
             <span className="gradient-text-water">white</span>
@@ -64,62 +64,62 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
           </h1>
         </motion.div>
 
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className=" text-white text-base md:text-lg lg:text-xl
+          className=" text-blue-300 text-base md:text-lg lg:text-xl
             font-body px-4 py-3 mx-auto max-w-xl
-            rounded-xl bg-black/20 backdrop-blur-sm"
+            /*rounded-xl bg-black/20 backdrop-blur-sm"
         >
-          Pure innovation. Elevated hydration.
-        </motion.p>
-        
+          Hydration Reimagined
+        </motion.p> */}
+
 
         {/* Scroll indicator */}
         <motion.div
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1, delay: 1.5 }}
-  // className="absolute bottom-10 left-1/2 -translate-x-1/2"
-  className="absolute bottom-4 sm:bottom-8 lg:bottom-10 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.5 }}
+          // className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className=" absolute bottom-4 sm:bottom-8 lg:bottom-10 left-1/2 -translate-x-1/2"
 
->
-  
-  <div className="flex flex-col items-center gap-10 ">
-    <span
-      className="
+        >
+
+          <div className="flex flex-col items-center gap-10">
+            <span
+              className="
         text-sm uppercase tracking-widest
-        px-2 py-2 rounded-full mb-2
+        px-2 py-2  rounded-full mb-2
         backdrop-blur-sm bg-black/30
-        text-orange-300
+        text-neon-cyan/100
         drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]
       "
-    >
-      Scroll to explore
-    </span>
+            >
+              Scroll to explore
+            </span>
 
-    <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/50 flex justify-center pt-2 ">
-      <motion.div
-        animate={{ y: [0, 12, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        className="w-1.5 h-1.5 rounded-full bg-neon-cyan"
-      />
-    </div>
-  </div>
-</motion.div>
+            <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/50 flex justify-center pt-2 ">
+              <motion.div
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+                className="w-1.5 h-1.5 rounded-full bg-neon-cyan"
+              />
+            </div>
+          </div>
+        </motion.div>
 
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center  ">
 
-           
 
-            <button
-              onClick={() => {
-                const footer = document.getElementById("footer");
-                footer?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="
+
+          <button
+            onClick={() => {
+              const footer = document.getElementById("footer");
+              footer?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="
                 relative z-50
                 transform-gpu
                 will-change-transform
@@ -129,22 +129,27 @@ export const HeroSection = ({ setRotationY }: HeroSectionProps) => {
                 text-white
 
                 bg-gradient-to-r
-                from-orange-400 via-orange-500 to-amber-400
+                from-neon-cyan via-neon-cyan/50 to-neon-cyan/100
 
-                shadow-[0_10px_30px_rgba(251,146,60,0.45)]
-                hover:shadow-[0_15px_45px_rgba(251,146,60,0.7)]
+                shadow-[0_10px_30px_rgba(0, 255, 255, 0.5)]
+                hover:shadow-[0_15px_45px_rgba(0, 255, 255, 0.5)]
                 hover:scale-105
 
                 transition-all duration-300 ease-out
               "
-            >
-              Contact Us
-            </button>
-          </div>    
+          >
+            Contact Us
+          </button>
+        </div>
       </div>
     </section>
   );
 };
+
+
+
+
+
 
 
 
