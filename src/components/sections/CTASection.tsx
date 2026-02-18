@@ -292,13 +292,13 @@ export const CTASection = () => {
               href="tel:+919876543210"
               className="hover:text-neon-cyan transition-colors"
             >
-              📞 +91 98765 43210
+              📞 +91 9099093431
             </a>
             <a
               href="mailto:contact@whiteupwater.com"
               className="hover:text-neon-cyan transition-colors"
             >
-              📧 contact@whiteupwater.com
+              📧 riddhienterprise@whiteupwater.com
             </a>
           </div>
         </motion.div>
